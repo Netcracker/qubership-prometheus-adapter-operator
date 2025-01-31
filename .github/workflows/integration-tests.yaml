@@ -1,0 +1,39 @@
+name: Integration Tests
+
+on:
+  push:
+    branches:
+      - '**'  # run for all branches
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: '1.23.0'
+
+      - name: Install dependencies
+        run: |
+          go mod tidy
+
+      - name: Set up Kubernetes API server (envtest)
+        run: |
+          export KUBEBUILDER_ASSETS=$(go env GOPATH)/bin
+          curl -L -o kubebuilder-tools.tar.gz https://storage.googleapis.com/kubebuilder-tools/kubebuilder-tools-1.25.0-linux-amd64.tar.gz
+          tar -xzf kubebuilder-tools.tar.gz
+          mkdir -p $KUBEBUILDER_ASSETS
+          mv kubebuilder-tools-1.25.0-linux-amd64/* $KUBEBUILDER_ASSETS
+          rm kubebuilder-tools.tar.gz
+
+      - name: Run integration tests
+        run: |
+          go test -v ./integration-tests/...
