@@ -39,6 +39,7 @@ var cfg *rest.Config
 var k8sClient client.Client
 var testEnv *envtest.Environment
 
+// function for run API tests
 func TestAPIs(t *testing.T) {
 	RegisterFailHandler(Fail)
 	RunSpecs(t, "Controller Suite")
@@ -48,6 +49,7 @@ var _ = BeforeSuite(func() {
 	logf.SetLogger(zap.New(zap.WriteTo(GinkgoWriter), zap.UseDevMode(true)))
 
 	By("bootstrapping test environment")
+	// init test environment with path to CRD
 	testEnv = &envtest.Environment{
 		CRDDirectoryPaths: []string{filepath.Join("..", "charts", "qubership-prometheus-adapter-operator", "crds")},
 	}
@@ -55,13 +57,12 @@ var _ = BeforeSuite(func() {
 	defer GinkgoRecover()
 
 	var err error
+	// start test environment and get it configuration
 	cfg, err = testEnv.Start()
 	Expect(err).ToNot(HaveOccurred(), "failed to run manager")
 	Expect(cfg).ToNot(BeNil())
 
-	err = v1alpha1.AddToScheme(scheme.Scheme)
-	Expect(err).NotTo(HaveOccurred())
-
+    // add scheme v1alpha1 for Kubernetes scheme
 	err = v1alpha1.AddToScheme(scheme.Scheme)
 	Expect(err).NotTo(HaveOccurred())
 
