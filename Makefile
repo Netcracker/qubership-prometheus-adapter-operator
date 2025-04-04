@@ -36,8 +36,14 @@ API_DOC_GEN_BINARY_DIR?=$(shell pwd)/build/tools
 API_DOC_GEN_BINARY=$(API_DOC_GEN_BINARY_DIR)/gen-crd-api-reference-docs
 
 # Tools
-CONTROLLER_GEN_PACKAGE=sigs.k8s.io/controller-tools/cmd/controller-gen@v0.16.5
+CONTROLLER_GEN_VERSION=v0.21.0
+CONTROLLER_GEN_PACKAGE=sigs.k8s.io/controller-tools/cmd/controller-gen@$(CONTROLLER_GEN_VERSION)
 GEN_CRD_API_PACKAGE=github.com/ahmetb/gen-crd-api-reference-docs@v0.3.0
+CONTROLLER_GEN=$(API_DOC_GEN_BINARY_DIR)/controller-gen
+
+ENVTEST_K8S_VERSION = 1.32.0
+ENVTEST_VERSION ?= release-0.23
+ENVTEST=$(API_DOC_GEN_BINARY_DIR)/setup-envtest
 
 # Detect the build environment, local or Jenkins builder
 BUILD_DATE=$(shell date +"%Y%m%d-%T")
@@ -119,19 +125,10 @@ generate: controller-gen
 
 # Find or download controller-gen, download controller-gen if necessary
 controller-gen:
-ifeq (, $(shell which controller-gen))
-	@{ \
-		set -e ;\
-		CONTROLLER_GEN_TMP_DIR=$$(mktemp -d) ;\
-		cd $$CONTROLLER_GEN_TMP_DIR ;\
-		go mod init tmp ;\
-		go install $(CONTROLLER_GEN_PACKAGE) ;\
-		rm -rf $$CONTROLLER_GEN_TMP_DIR ;\
-	}
-CONTROLLER_GEN=$(GOBIN)/controller-gen
-else
-CONTROLLER_GEN=$(shell which controller-gen)
-endif
+	mkdir -p $(API_DOC_GEN_BINARY_DIR)
+	@if [ ! -x "$(CONTROLLER_GEN)" ] || ! "$(CONTROLLER_GEN)" --version | grep -q "$(CONTROLLER_GEN_VERSION)"; then \
+		GOBIN=$(API_DOC_GEN_BINARY_DIR) go install $(CONTROLLER_GEN_PACKAGE); \
+	fi
 
 #########
 # Build #
@@ -188,6 +185,19 @@ unit-test:
 .PHONY: int-test
 int-test:
 	ginkgo ./... -coverprofile cover.out
+
+# Install envtest tools
+.PHONY: envtest-install
+envtest-install: ## Download setup-envtest locally if necessary.
+	mkdir -p $(API_DOC_GEN_BINARY_DIR)
+	@if [ ! -x "$(ENVTEST)" ]; then \
+		GOBIN=$(API_DOC_GEN_BINARY_DIR) go install sigs.k8s.io/controller-runtime/tools/setup-envtest@$(ENVTEST_VERSION); \
+	fi
+
+# Run envtests
+.PHONY: envtest
+envtest: envtest-install
+	KUBEBUILDER_ASSETS="$$($(ENVTEST) use $(ENVTEST_K8S_VERSION) --bin-dir $(API_DOC_GEN_BINARY_DIR) -p path)" go test ./... -coverprofile cover.out
 
 #################
 # Documentation #
