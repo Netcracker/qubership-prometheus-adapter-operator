@@ -13,7 +13,7 @@
 # limitations under the License.
 
 # Build the manager binary
-FROM golang:1.23.4-alpine3.21 AS builder
+FROM golang:1.24.2-alpine3.21 AS builder
 
 WORKDIR /workspace
 
