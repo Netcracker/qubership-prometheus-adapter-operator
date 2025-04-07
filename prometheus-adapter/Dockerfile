@@ -14,7 +14,7 @@
 
 FROM registry.k8s.io/prometheus-adapter/prometheus-adapter:v0.12.0 AS source
 
-FROM alpine:3.20.3
+FROM alpine:3.21.3
 
 COPY --from=source /adapter .
 COPY entrypoint.sh .
