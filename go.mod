@@ -8,7 +8,7 @@ require (
 	github.com/Netcracker/qubership-prometheus-adapter-operator/api v0.0.0-20250314165042-18a8d59565ac
 	github.com/go-logr/logr v1.4.2
 	github.com/onsi/ginkgo/v2 v2.23.4
-	github.com/onsi/gomega v1.36.3
+	github.com/onsi/gomega v1.37.0
 	github.com/prometheus/common v0.63.0
 	github.com/stretchr/testify v1.10.0
 	k8s.io/api v0.32.3
