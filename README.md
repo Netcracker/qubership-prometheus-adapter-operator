@@ -52,9 +52,9 @@ execute the following steps:
    [values.yaml](charts/qubership-prometheus-adapter-operator/values.yaml).
 3. Run deploy with using Helm
 
-    ```bash
-    helm install <release_name> --namespace=<namespace> charts/qubership-prometheus-adapter-operator -f /path/to/custom-value.yaml
-    ```
+   ```bash
+   helm install <release_name> --namespace=<namespace> charts/qubership-prometheus-adapter-operator -f /path/to/custom-value.yaml
+   ```
 
 ## Release Images
 

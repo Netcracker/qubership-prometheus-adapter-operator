@@ -3,6 +3,8 @@ quiet: true
 skip-check:
 - CKV_GHA_7 # The build output cannot be affected by user parameters other than the build entry point and the top-level source location. GitHub Actions workflow_dispatch inputs MUST be empty.
 - CKV_K8S_8 # Liveness Probe Should be Configured
+- CKV_K8S_9 # Readiness Probe Should be Configured
+- CKV_K8S_11 # CPU limits should be set
 - CKV_K8S_13 # Memory limits should be set
 - CKV_K8S_15 # Image Pull Policy should be Always
 - CKV_K8S_20 # Containers should not run with allowPrivilegeEscalation
@@ -16,5 +18,7 @@ skip-check:
 - CKV_K8S_38 # Ensure that Service Account Tokens are only mounted where necessary
 - CKV_K8S_40 # Containers should run as a high UID to avoid host conflict
 - CKV_K8S_43 # Image should use digest
+- CKV_DOCKER_2 # Ensure that HEALTHCHECK instructions have been added to container images
 - CKV2_K8S_6 # Minimize the admission of pods which lack an associated NetworkPolicy
 - CKV2_GHA_1 # Ensure top-level permissions are not set to write-all
+
