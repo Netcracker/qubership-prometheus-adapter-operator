@@ -1,0 +1,22 @@
+{{- if .Values.integrationTests.install }}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ .Values.integrationTests.name }}
+  annotations:
+    helm.sh/hook: post-install
+    helm.sh/hook-delete-policy: hook-succeeded
+spec:
+  template:
+    spec:
+      serviceAccountName: {{ .Values.integrationTests.name }}-service-account
+      containers:
+        - name: {{ .Values.integrationTests.name }}-container
+          image: {{ .Values.integrationTests.image }}
+          imagePullPolicy: IfNotPresent
+          command: ["python", "/app/check-metric-apiservice.py"]
+      restartPolicy: Never
+  backoffLimit: 0
+  activeDeadlineSeconds: 30
+  ttlSecondsAfterFinished: 900
+{{- end }}
