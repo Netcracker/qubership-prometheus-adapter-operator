@@ -18,8 +18,8 @@ The `prometheus-operator-adapter` and `prometheus-adapter` can be installed in `
 
 * [Installation](docs/install.md)
 * CustomResource API descriptions:
-  * [PrometheusAdapter](docs/api/prometheus-adapter.md)
-  * [CustomScaleMetricRule](docs/api/custom-scale-metric-rule.md)
+  * [PrometheusAdapter](docs/api.md)
+  * [CustomScaleMetricRule](docs/api.md)
 
 ## Before you begin
 
