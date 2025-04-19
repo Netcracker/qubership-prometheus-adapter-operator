@@ -42,10 +42,10 @@ type PrometheusAdapterSpec struct {
 	// MetricsRelistInterval is the interval at which to update the cache of available metrics from Prometheus
 	MetricsRelistInterval string `json:"metricsRelistInterval,omitempty"`
 
-	//EnableResourceMetrics allows enabling/disabling adapter for `metrics.k8s.io`
+	// EnableResourceMetrics allows enabling/disabling adapter for `metrics.k8s.io`
 	EnableResourceMetrics bool `json:"enableResourceMetrics,omitempty"`
 
-	//EnableCustomMetrics allows enabling/disabling adapter for `custom.metrics.k8s.io`
+	// EnableCustomMetrics allows enabling/disabling adapter for `custom.metrics.k8s.io`
 	EnableCustomMetrics bool `json:"enableCustomMetrics,omitempty"`
 
 	// CustomScaleMetricRulesSelector defines label selectors to select
@@ -58,7 +58,7 @@ type PrometheusAdapterSpec struct {
 	// SecurityContext holds pod-level security attributes.
 	SecurityContext *SecurityContext `json:"securityContext,omitempty"`
 
-	TLSConfig *TlsConfig `json:"tlsConfig,omitempty"`
+	TLSConfig *TLSConfig `json:"tlsConfig,omitempty"`
 
 	Auth *Auth `json:"auth,omitempty"`
 
@@ -142,7 +142,7 @@ type PrometheusAdapterList struct {
 	Items           []PrometheusAdapter `json:"items"`
 }
 
-type TlsConfig struct {
+type TLSConfig struct {
 	// Certificate authority used when verifying server certificates.
 	CA *v1.SecretKeySelector `json:"caSecret,omitempty"`
 	// Client certificate to present when doing client-authentication.

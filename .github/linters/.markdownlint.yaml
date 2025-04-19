@@ -1,0 +1,23 @@
+# MD013/line-length - Line length
+MD013:
+  line_length: 120
+  heading_line_length: 120
+  code_block_line_length: 120
+  code_blocks: false
+  tables: false
+  headings: true
+  strict: false
+  stern: false
+# MD024/no-duplicate-header - Multiple headers with the same content
+MD024:
+  siblings_only: true
+# MD041/first-line-heading - First line in a file should be a top-level heading
+MD041: false
+# MD033/no-inline-html - Inline HTML
+MD033: false
+# MD036/no-emphasis-as-heading - Emphasis used instead of a heading
+MD036: false
+# MD011/no-reversed-links - Reversed link syntax
+MD011: false
+# MD037/no-space-in-emphasis - Spaces inside emphasis markers
+MD037: false

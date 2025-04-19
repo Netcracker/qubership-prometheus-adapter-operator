@@ -472,10 +472,10 @@ SecurityContext
 </tr>
 <tr>
 <td>
-<code>tlsConfig</code><br/>
+<code>TLSConfig</code><br/>
 <em>
-<a href="#monitoring.qubership.org/v1alpha1.TlsConfig">
-TlsConfig
+<a href="#monitoring.qubership.org/v1alpha1.TLSConfig">
+TLSConfig
 </a>
 </em>
 </td>
@@ -721,10 +721,10 @@ SecurityContext
 </tr>
 <tr>
 <td>
-<code>tlsConfig</code><br/>
+<code>TLSConfig</code><br/>
 <em>
-<a href="#monitoring.qubership.org/v1alpha1.TlsConfig">
-TlsConfig
+<a href="#monitoring.qubership.org/v1alpha1.TLSConfig">
+TLSConfig
 </a>
 </em>
 </td>
@@ -975,7 +975,7 @@ to be owned by the pod:</p>
 </tr>
 </tbody>
 </table>
-<h3 id="monitoring.qubership.org/v1alpha1.TlsConfig">TlsConfig
+<h3 id="monitoring.qubership.org/v1alpha1.TLSConfig">TLSConfig
 </h3>
 <p>
 (<em>Appears on:</em><a href="#monitoring.qubership.org/v1alpha1.PrometheusAdapterSpec">PrometheusAdapterSpec</a>)
