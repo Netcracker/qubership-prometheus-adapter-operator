@@ -18,8 +18,8 @@ The `prometheus-operator-adapter` and `prometheus-adapter` can be installed in `
 
 * [Installation](docs/install.md)
 * CustomResource API descriptions:
-  * [PrometheusAdapter](docs/api/prometheus-adapter.md)
-  * [CustomScaleMetricRule](docs/api/custom-scale-metric-rule.md)
+  * [PrometheusAdapter](docs/api.md)
+  * [CustomScaleMetricRule](docs/api.md)
 
 ## Before you begin
 
@@ -52,9 +52,9 @@ execute the following steps:
    [values.yaml](charts/qubership-prometheus-adapter-operator/values.yaml).
 3. Run deploy with using Helm
 
-    ```bash
-    helm install <release_name> --namespace=<namespace> charts/qubership-prometheus-adapter-operator -f /path/to/custom-value.yaml
-    ```
+   ```bash
+   helm install <release_name> --namespace=<namespace> charts/qubership-prometheus-adapter-operator -f /path/to/custom-value.yaml
+   ```
 
 ## Release Images
 
