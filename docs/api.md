@@ -1,3 +1,4 @@
+<!-- markdownlint-disable first-line-heading -->
 <!-- markdownlint-disable line-length -->
 <!-- markdownlint-disable reference-links-images -->
 > This page is automatically generated with `gen-crd-api-reference-docs`.
