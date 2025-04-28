@@ -58,6 +58,8 @@ type PrometheusAdapterSpec struct {
 	// SecurityContext holds pod-level security attributes.
 	SecurityContext *SecurityContext `json:"securityContext,omitempty"`
 
+	TLSEnabled bool `json:"tlsEnabled,omitempty"`
+
 	TLSConfig *TLSConfig `json:"tlsConfig,omitempty"`
 
 	Auth *Auth `json:"auth,omitempty"`
@@ -79,7 +81,7 @@ type PrometheusAdapterSpec struct {
 	// More info: https://kubernetes.io/docs/user-guide/annotations
 	// +optional
 	Annotations map[string]string `json:"annotations,omitempty"`
-
+chec
 	// Affinity is a group of affinity scheduling rules.
 	// More info: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node
 	// +optional
