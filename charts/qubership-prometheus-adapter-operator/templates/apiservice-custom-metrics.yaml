@@ -21,7 +21,7 @@ metadata:
     name: v1beta1.custom.metrics.k8s.io
     app.kubernetes.io/name: v1beta1.custom.metrics.k8s.io
     app.kubernetes.io/instance: v1beta1.custom.metrics.k8s.io
-    {{- include "qubership-prometheus-adapter-operator.commonlLabels" . | nindent 4 }}
+    {{- include "qubership-prometheus-adapter-operator.commonLabels" . | nindent 4 }}
 spec:
   service:
     name: prometheus-adapter

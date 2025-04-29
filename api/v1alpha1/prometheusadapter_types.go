@@ -58,6 +58,8 @@ type PrometheusAdapterSpec struct {
 	// SecurityContext holds pod-level security attributes.
 	SecurityContext *SecurityContext `json:"securityContext,omitempty"`
 
+	TLSEnabled bool `json:"tlsEnabled,omitempty"`
+
 	TLSConfig *TLSConfig `json:"tlsConfig,omitempty"`
 
 	Auth *Auth `json:"auth,omitempty"`

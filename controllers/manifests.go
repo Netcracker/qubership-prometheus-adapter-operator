@@ -134,7 +134,7 @@ func (f *Factory) PrometheusAdapterDeployment() (*appsv1.Deployment, error) {
 				c.Args = append(c.Args, "--prometheus-url="+f.prometheusAdapterCr.Spec.PrometheusURL)
 			}
 			c.Args = append(c.Args, "--metrics-relist-interval="+f.prometheusAdapterCr.Spec.MetricsRelistInterval)
-			if f.prometheusAdapterCr.Spec.TLSConfig != nil {
+			if f.prometheusAdapterCr.Spec.TLSEnabled && f.prometheusAdapterCr.Spec.TLSConfig != nil {
 				caVolume := corev1.Volume{
 					Name: f.prometheusAdapterCr.Spec.TLSConfig.CA.Name,
 					VolumeSource: corev1.VolumeSource{

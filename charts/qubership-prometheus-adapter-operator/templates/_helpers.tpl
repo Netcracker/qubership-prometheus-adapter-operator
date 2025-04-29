@@ -28,7 +28,7 @@ If release name contains chart name it will be used as a full name.
 {{/*
 Create common labels for each resource which is creating by this chart.
 */}}
-{{- define "qubership-prometheus-adapter-operator.commonlLabels" -}}
+{{- define "qubership-prometheus-adapter-operator.commonLabels" -}}
 app.kubernetes.io/component: prometheus-adapter
 app.kubernetes.io/part-of: monitoring
 app.kubernetes.io/version: {{ .Chart.AppVersion }}

@@ -21,7 +21,7 @@ metadata:
     name: {{ $fullname }}
     app.kubernetes.io/name: {{ $fullname }}
     app.kubernetes.io/instance: {{ cat $fullname "-" .Release.Namespace | nospace | trunc 63 | trimSuffix "-" }}
-    {{- include "qubership-prometheus-adapter-operator.commonlLabels" . | nindent 4 }}
+    {{- include "qubership-prometheus-adapter-operator.commonLabels" . | nindent 4 }}
     {{- if .Values.labels }}
       {{- toYaml .Values.labels | nindent 4 }}
     {{- end }}
@@ -40,7 +40,7 @@ spec:
         name: {{ $fullname }}
         app.kubernetes.io/name: {{ template "qubership-prometheus-adapter-operator.fullname" . }}
         app.kubernetes.io/instance: {{ cat $fullname "-" .Release.Namespace | nospace | trunc 63 | trimSuffix "-" }}
-        {{- include "qubership-prometheus-adapter-operator.commonlLabels" . | nindent 8 }}
+        {{- include "qubership-prometheus-adapter-operator.commonLabels" . | nindent 8 }}
         {{- if .Values.labels }}
           {{- toYaml .Values.labels | nindent 8 }}
         {{- end }}
