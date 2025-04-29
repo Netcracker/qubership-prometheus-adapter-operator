@@ -45,7 +45,7 @@ jobs:
           grep "\S" ./.github/super-linter.env | grep -v "^#"
           grep "\S" ./.github/super-linter.env | grep -v "^#" >> $GITHUB_ENV
         fi
-    
+
     - name: Ensure script is executable
       run: chmod +x scripts/build/append-operator-version.sh
 

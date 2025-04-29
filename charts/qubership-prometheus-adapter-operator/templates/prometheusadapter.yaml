@@ -74,7 +74,7 @@ spec:
   {{- else }}
   {{- if .Values.prometheusAdapter.tlsConfig.existingSecret }}
   tlsConfig:
-    caSecret: 
+    caSecret:
       key: "ca.crt"
       name: {{ .Values.prometheusAdapter.tlsConfig.existingSecret }}
     certSecret:
@@ -86,7 +86,7 @@ spec:
   {{- else }}
   {{- if and .Values.prometheusAdapter.tlsConfig.generateCerts .Values.prometheusAdapter.tlsConfig.generateCerts.enabled }}
   tlsConfig:
-    caSecret: 
+    caSecret:
       key: "ca.crt"
       name: {{ default "prometheus-adapter-client-tls-secret" .Values.prometheusAdapter.tlsConfig.generateCerts.secretName }}
     certSecret:
@@ -97,7 +97,7 @@ spec:
       name: {{ default "prometheus-adapter-client-tls-secret" .Values.prometheusAdapter.tlsConfig.generateCerts.secretName }}
   {{- else }}
   tlsConfig:
-    caSecret: 
+    caSecret:
       key: "ca.crt"
       name: {{ default "prometheus-adapter-client-tls-secret" .Values.prometheusAdapter.tlsConfig.createSecret.secretName }}
     certSecret:
