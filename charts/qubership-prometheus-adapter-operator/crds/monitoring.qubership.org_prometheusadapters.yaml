@@ -3,11 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.16.5
-    qubership-prometheus-adapter-operator.monitoring.qubership.org/version: 0.6.5
-  labels:
-    app.kubernetes.io/component: qubership-prometheus-adapter-operator
-    app.kubernetes.io/part-of: monitoring
+    controller-gen.kubebuilder.io/version: v0.17.2
   name: prometheusadapters.monitoring.qubership.org
 spec:
   group: monitoring.qubership.org
@@ -1291,6 +1287,8 @@ spec:
                     type: object
                     x-kubernetes-map-type: atomic
                 type: object
+              tlsEnabled:
+                type: boolean
               tolerations:
                 description: |-
                   Tolerations allow the pods to schedule onto nodes with matching taints.

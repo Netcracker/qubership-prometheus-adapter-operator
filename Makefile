@@ -113,8 +113,6 @@ generate: controller-gen
 					object:headerFile="hack/boilerplate.go.txt" \
 					paths="./api/v1alpha1" \
 					output:artifacts:config=charts/qubership-prometheus-adapter-operator/crds/
-	chmod +x ./scripts/build/append-operator-version.sh
-	VERSION=$(VERSION) ./scripts/build/append-operator-version.sh
 
 # Find or download controller-gen, download controller-gen if necessary
 controller-gen:
