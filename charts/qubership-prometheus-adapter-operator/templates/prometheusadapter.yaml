@@ -19,10 +19,10 @@ metadata:
   labels:
     name: prometheus-adapter
     app.kubernetes.io/name: prometheus-adapter
-    app.kubernetes.io/instance: {{- cat "prometheus-adapter-" .Release.Namespace | nospace | trunc 63 | trimSuffix "-" }}
-    {{ include "qubership-prometheus-adapter-operator.commonLabels" . | nindent 4 }}
+    app.kubernetes.io/instance: {{ cat "prometheus-adapter-" .Release.Namespace | nospace | trunc 63 | trimSuffix "-" }}
+    {{- include "qubership-prometheus-adapter-operator.commonLabels" . | nindent 4 }}
 spec:
-  {{ toYaml .Values.prometheusAdapter | nindent 2 }}
+  {{- toYaml .Values.prometheusAdapter | nindent 2 }}
   image: {{ template "prometheus-adapter.image" . }}
   replicas: {{ .Values.prometheusAdapter.replicas }}
   metricsRelistInterval: {{ .Values.prometheusAdapter.metricsRelistInterval }}

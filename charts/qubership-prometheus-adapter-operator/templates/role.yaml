@@ -79,7 +79,7 @@ rules:
       - create
 
   - apiGroups:
-      - "coordination.k8s.io"
+      - coordination.k8s.io
     resources:
       - leases
     verbs:
