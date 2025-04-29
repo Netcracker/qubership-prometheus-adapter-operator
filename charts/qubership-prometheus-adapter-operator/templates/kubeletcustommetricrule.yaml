@@ -20,7 +20,7 @@ metadata:
     name: kubelet-custom-metric-rule
     app.kubernetes.io/name: kubelet-custom-metric-rule
     app.kubernetes.io/instance: {{ cat "kubelet-custom-metric-rule-" .Release.Namespace | nospace | trunc 63 | trimSuffix "-" }}
-    {{- include "qubership-prometheus-adapter-operator.commonlLabels" . | nindent 4 }}
+    {{- include "qubership-prometheus-adapter-operator.commonLabels" . | nindent 4 }}
 spec:
   rules:
     # Container/Pod CPU usage metrics

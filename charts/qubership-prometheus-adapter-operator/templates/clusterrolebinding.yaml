@@ -22,7 +22,7 @@ metadata:
     name: {{ $fullname }}
     app.kubernetes.io/name: {{ $fullname }}
     app.kubernetes.io/instance: {{ cat $fullname "-" .Release.Namespace | nospace | trunc 63 | trimSuffix "-" }}
-    {{- include "qubership-prometheus-adapter-operator.commonlLabels" . | nindent 4 }}
+    {{- include "qubership-prometheus-adapter-operator.commonLabels" . | nindent 4 }}
 subjects:
   - kind: ServiceAccount
     name: {{ template "qubership-prometheus-adapter-operator.fullname" . }}
