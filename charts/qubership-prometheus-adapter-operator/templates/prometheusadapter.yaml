@@ -35,11 +35,11 @@ spec:
   enableCustomMetrics: {{ .Values.prometheusAdapter.enableCustomMetrics }}
   {{- if .Values.prometheusAdapter.securityContext }}
   securityContext:
-    {{ .Values.prometheusAdapter.securityContext }}
+    {{- toYaml .Values.prometheusAdapter.securityContext | nindent 4 }}
   {{- end }}
   {{- if .Values.prometheusAdapter.resources }}
   resources:
-    {{ .Values.prometheusAdapter.resources }}
+    {{- toYaml .Values.prometheusAdapter.resources | nindent 4 }}
   {{- end }}
   {{- if .Values.prometheusAdapter.labels }}
   labels:
@@ -64,6 +64,7 @@ spec:
   {{- if .Values.prometheusAdapter.priorityClassName }}
   priorityClassName: {{ .Values.prometheusAdapter.priorityClassName | quote }}
   {{- end }}
+  tlsEnabled: {{ .Values.prometheusAdapter.tlsEnabled | default false }}
   {{- if .Values.prometheusAdapter.tlsEnabled }}
   {{- if and .Values.prometheusAdapter.tlsConfig.caSecret .Values.prometheusAdapter.tlsConfig.keySecret .Values.prometheusAdapter.tlsConfig.certSecret }}
   tlsConfig:
@@ -71,7 +72,7 @@ spec:
     certSecret: {{- toYaml .Values.prometheusAdapter.tlsConfig.certSecret | nindent 6 }}
     keySecret: {{- toYaml .Values.prometheusAdapter.tlsConfig.keySecret | nindent 6 }}
   {{- else }}
-  {{-  if .Values.prometheusAdapter.tlsConfig.existingSecret }}
+  {{- if .Values.prometheusAdapter.tlsConfig.existingSecret }}
   tlsConfig:
     caSecret: 
       key: "ca.crt"
