@@ -20,6 +20,7 @@ require (
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/onsi/ginkgo/v2 v2.23.4 // indirect
 	github.com/onsi/gomega v1.37.0 // indirect
+	github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2 // indirect
 	github.com/x448/float16 v0.8.4 // indirect
 	golang.org/x/net v0.39.0 // indirect
 	golang.org/x/text v0.24.0 // indirect
