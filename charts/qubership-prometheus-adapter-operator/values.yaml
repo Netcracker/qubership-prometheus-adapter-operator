@@ -26,7 +26,7 @@ fullnameOverride: ""
 
 # A docker image to use for qubership-prometheus-adapter-operator deployment
 # Type: string
-# Mandatory: true
+# Mandatory: true (if not specified in .values.yaml it will be defined in _helpers.tpl template)
 #
 #image: "ghcr.io/netcracker/qubership-prometheus-adapter-operator:main"
 
@@ -390,3 +390,21 @@ prometheusAdapter:
   # PriorityClassName assigned to the Pods to prevent them from evicting.
   # Type: string
   # priorityClassName: "priorityClassName"
+
+integrationTests:
+  ## A name of a microservice to deploy with.
+  # This name will be used as name of the microservice deployment and in labels.
+  name: prometheus-adapter-tests
+
+  # Allow to enable or disable deploy integration tests.
+  # Type: boolean
+  # Mandatory: no
+  # Default: false
+  #
+  install: false
+
+  # A docker image to use for integration-test deployment
+  # Type: string
+  # Mandatory: false
+  #
+  #image: "integration-test:latest"
