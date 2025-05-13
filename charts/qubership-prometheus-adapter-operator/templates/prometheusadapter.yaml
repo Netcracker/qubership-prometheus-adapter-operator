@@ -20,7 +20,7 @@ metadata:
     name: prometheus-adapter
     app.kubernetes.io/name: prometheus-adapter
     app.kubernetes.io/instance: {{ cat "prometheus-adapter-" .Release.Namespace | nospace | trunc 63 | trimSuffix "-" }}
-    {{- include "qubership-prometheus-adapter-operator.commonlLabels" . | nindent 4 }}
+    {{- include "qubership-prometheus-adapter-operator.commonLabels" . | nindent 4 }}
 spec:
   {{- toYaml .Values.prometheusAdapter | nindent 2 }}
   image: {{ template "prometheus-adapter.image" . }}
@@ -35,11 +35,11 @@ spec:
   enableCustomMetrics: {{ .Values.prometheusAdapter.enableCustomMetrics }}
   {{- if .Values.prometheusAdapter.securityContext }}
   securityContext:
-    {{ .Values.prometheusAdapter.securityContext }}
+    {{- toYaml .Values.prometheusAdapter.securityContext | nindent 4 }}
   {{- end }}
   {{- if .Values.prometheusAdapter.resources }}
   resources:
-    {{ .Values.prometheusAdapter.resources }}
+    {{- toYaml .Values.prometheusAdapter.resources | nindent 4 }}
   {{- end }}
   {{- if .Values.prometheusAdapter.labels }}
   labels:
@@ -64,6 +64,7 @@ spec:
   {{- if .Values.prometheusAdapter.priorityClassName }}
   priorityClassName: {{ .Values.prometheusAdapter.priorityClassName | quote }}
   {{- end }}
+  tlsEnabled: {{ .Values.prometheusAdapter.tlsEnabled | default false }}
   {{- if .Values.prometheusAdapter.tlsEnabled }}
   {{- if and .Values.prometheusAdapter.tlsConfig.caSecret .Values.prometheusAdapter.tlsConfig.keySecret .Values.prometheusAdapter.tlsConfig.certSecret }}
   tlsConfig:
@@ -71,9 +72,9 @@ spec:
     certSecret: {{- toYaml .Values.prometheusAdapter.tlsConfig.certSecret | nindent 6 }}
     keySecret: {{- toYaml .Values.prometheusAdapter.tlsConfig.keySecret | nindent 6 }}
   {{- else }}
-  {{-  if .Values.prometheusAdapter.tlsConfig.existingSecret }}
+  {{- if .Values.prometheusAdapter.tlsConfig.existingSecret }}
   tlsConfig:
-    caSecret: 
+    caSecret:
       key: "ca.crt"
       name: {{ .Values.prometheusAdapter.tlsConfig.existingSecret }}
     certSecret:
@@ -85,7 +86,7 @@ spec:
   {{- else }}
   {{- if and .Values.prometheusAdapter.tlsConfig.generateCerts .Values.prometheusAdapter.tlsConfig.generateCerts.enabled }}
   tlsConfig:
-    caSecret: 
+    caSecret:
       key: "ca.crt"
       name: {{ default "prometheus-adapter-client-tls-secret" .Values.prometheusAdapter.tlsConfig.generateCerts.secretName }}
     certSecret:
@@ -96,7 +97,7 @@ spec:
       name: {{ default "prometheus-adapter-client-tls-secret" .Values.prometheusAdapter.tlsConfig.generateCerts.secretName }}
   {{- else }}
   tlsConfig:
-    caSecret: 
+    caSecret:
       key: "ca.crt"
       name: {{ default "prometheus-adapter-client-tls-secret" .Values.prometheusAdapter.tlsConfig.createSecret.secretName }}
     certSecret:

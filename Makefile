@@ -164,7 +164,7 @@ vet:
 image:
 	echo "=> Build image ..."
 	docker build --pull -t $(CONTAINER_NAME) -f $(DOCKERFILE) .
-	
+
 	# Set image tag if build inside the Jenkins
 	for id in $(DOCKER_NAMES) ; do \
 		docker tag $(CONTAINER_NAME) "$$id"; \
@@ -221,6 +221,7 @@ endif
 # Copy CRDs from the Helm chart to documentation directory
 docs/crds:
 	rm -rf $(CRD_PUBLIC_DOC_FOLDER)/*.yaml
+	mkdir -p $(CRD_PUBLIC_DOC_FOLDER)
 	cp $(CRD_FOLDER)/* $(CRD_PUBLIC_DOC_FOLDER)/
 
 ###################

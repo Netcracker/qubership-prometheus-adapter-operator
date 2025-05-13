@@ -21,7 +21,7 @@ metadata:
     name: {{ $fullname }}
     app.kubernetes.io/name: {{ $fullname }}
     app.kubernetes.io/instance: {{ cat $fullname "-" .Release.Namespace | nospace | trunc 63 | trimSuffix "-" }}
-    {{- include "qubership-prometheus-adapter-operator.commonlLabels" . | nindent 4 }}
+    {{- include "qubership-prometheus-adapter-operator.commonLabels" . | nindent 4 }}
 rules:
   - apiGroups:
       - ""
@@ -70,10 +70,19 @@ rules:
       - update
       - patch
       - delete
-  
+
   - apiGroups:
       - rbac.authorization.k8s.io
     resources:
       - clusterrolebindings
     verbs:
       - create
+
+  - apiGroups:
+      - coordination.k8s.io
+    resources:
+      - leases
+    verbs:
+      - get
+      - create
+      - update

@@ -1,6 +1,6 @@
 root = true
 
-[*]
+[{*,.*}]
 charset = utf-8
 indent_style = space
 insert_final_newline = true
@@ -20,7 +20,11 @@ trim_trailing_whitespace = false
 [*.json]
 insert_final_newline = false
 
-[{go.mod,go.sum,go.work,go.work.sum,*.go,.gitmodules}]
+[{go.mod,go.sum,go.work,go.work.som,*.go,.gitmodules}]
+indent_size = 4
+indent_style = tab
+
+[Makefile]
 indent_size = 4
 indent_style = tab
 
