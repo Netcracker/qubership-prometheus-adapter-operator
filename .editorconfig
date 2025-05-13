@@ -24,6 +24,10 @@ insert_final_newline = false
 indent_size = 4
 indent_style = tab
 
+[Makefile]
+indent_size = 4
+indent_style = tab
+
 [Dockerfile]
 indent_size = 4
 
