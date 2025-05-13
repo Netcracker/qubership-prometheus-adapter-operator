@@ -3,7 +3,7 @@
 # Rules: https://yamllint.readthedocs.io/en/stable/rules.html
 
 ignore:
-  - charts/*
+  - charts/
 
 rules:
   braces:
