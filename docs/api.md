@@ -473,7 +473,17 @@ SecurityContext
 </tr>
 <tr>
 <td>
-<code>TLSConfig</code><br/>
+<code>tlsEnabled</code><br/>
+<em>
+bool
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>tlsConfig</code><br/>
 <em>
 <a href="#monitoring.qubership.org/v1alpha1.TLSConfig">
 TLSConfig
@@ -722,7 +732,17 @@ SecurityContext
 </tr>
 <tr>
 <td>
-<code>TLSConfig</code><br/>
+<code>tlsEnabled</code><br/>
+<em>
+bool
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>tlsConfig</code><br/>
 <em>
 <a href="#monitoring.qubership.org/v1alpha1.TLSConfig">
 TLSConfig

@@ -221,6 +221,7 @@ endif
 # Copy CRDs from the Helm chart to documentation directory
 docs/crds:
 	rm -rf $(CRD_PUBLIC_DOC_FOLDER)/*.yaml
+	mkdir -p $(CRD_PUBLIC_DOC_FOLDER)
 	cp $(CRD_FOLDER)/* $(CRD_PUBLIC_DOC_FOLDER)/
 
 ###################
