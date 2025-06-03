@@ -56,7 +56,7 @@ func (r *CustomScaleMetricRuleReconciler) Reconcile(ctx context.Context, req ctr
 
 	// Get CR instance
 	customScaleMetricRule := &v1alpha1.CustomScaleMetricRule{}
-	err := r.Client.Get(context.TODO(), req.NamespacedName, customScaleMetricRule)
+	err := r.Get(context.TODO(), req.NamespacedName, customScaleMetricRule)
 	if err != nil {
 		if errors.IsNotFound(err) {
 			if err := prometheusAdapterManager.RebuildPrometheusAdapterConfig(); err != nil {
