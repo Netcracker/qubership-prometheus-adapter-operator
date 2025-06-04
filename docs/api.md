@@ -30,7 +30,7 @@ Resource Types:
 <td>
 <code>basicAuth</code><br/>
 <em>
-<a href="https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#monitoring.coreos.com/v1.BasicAuth">
+<a href="https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api-reference/api.md#monitoring.coreos.com/v1.BasicAuth">
 Prometheus operator v1 .BasicAuth
 </a>
 </em>
@@ -529,7 +529,7 @@ map[string]string
 <p>Map of string keys and values that can be used to organize and categorize
 (scope and select) objects. May match selectors of replication controllers
 and services.
-More info: <a href="https://kubernetes.io/docs/user-guide/labels">https://kubernetes.io/docs/user-guide/labels</a></p>
+More info: <a href="https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/">https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/</a></p>
 </td>
 </tr>
 <tr>
@@ -544,7 +544,7 @@ map[string]string
 <p>Annotations is an unstructured key value map stored with a resource that may be
 set by external tools to store and retrieve arbitrary metadata. They are not
 queryable and should be preserved when modifying objects.
-More info: <a href="https://kubernetes.io/docs/user-guide/annotations">https://kubernetes.io/docs/user-guide/annotations</a></p>
+More info: <a href="https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/">https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/</a></p>
 </td>
 </tr>
 <tr>
@@ -788,7 +788,7 @@ map[string]string
 <p>Map of string keys and values that can be used to organize and categorize
 (scope and select) objects. May match selectors of replication controllers
 and services.
-More info: <a href="https://kubernetes.io/docs/user-guide/labels">https://kubernetes.io/docs/user-guide/labels</a></p>
+More info: <a href="https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/">https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/</a></p>
 </td>
 </tr>
 <tr>
@@ -803,7 +803,7 @@ map[string]string
 <p>Annotations is an unstructured key value map stored with a resource that may be
 set by external tools to store and retrieve arbitrary metadata. They are not
 queryable and should be preserved when modifying objects.
-More info: <a href="https://kubernetes.io/docs/user-guide/annotations">https://kubernetes.io/docs/user-guide/annotations</a></p>
+More info: <a href="https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/">https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/</a></p>
 </td>
 </tr>
 <tr>
