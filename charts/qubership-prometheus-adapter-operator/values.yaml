@@ -325,7 +325,7 @@ prometheusAdapter:
     #   keySecret:
     #     name: client-ssl-certificate
     #     key: client-key.key
-    
+
     # TLS configuration from existing secret
     # If specified, all subsequent parameters in tls section are ignored.
     #
