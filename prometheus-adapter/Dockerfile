@@ -12,12 +12,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# hadolint global ignore=DL3018
 FROM registry.k8s.io/prometheus-adapter/prometheus-adapter:v0.12.0 AS source
 
 FROM alpine:3.22.0
 
-COPY --from=source /adapter .
-COPY entrypoint.sh .
+WORKDIR /
+COPY --from=source /adapter ./
+COPY entrypoint.sh ./
 
 ENV USER_UID=1001 \
     USER_NAME=adapter \
