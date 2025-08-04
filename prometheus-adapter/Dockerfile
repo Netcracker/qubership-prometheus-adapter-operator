@@ -15,7 +15,7 @@
 # hadolint global ignore=DL3018
 FROM registry.k8s.io/prometheus-adapter/prometheus-adapter:v0.12.0 AS source
 
-FROM alpine:3.22.0
+FROM alpine:3.22.1
 
 WORKDIR /
 COPY --from=source /adapter ./
