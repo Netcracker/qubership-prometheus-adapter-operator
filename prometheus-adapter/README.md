@@ -1,6 +1,6 @@
 # Prometheus Adapter
 
-This repository builds a custom docker image of `prometheus-adapter` to add an ability to reload config without the pod's
+This repository builds a custom Docker image of `prometheus-adapter` to add an ability to reload config without the pod's
 restart.
 
 The `entrypoint.sh` script logic:

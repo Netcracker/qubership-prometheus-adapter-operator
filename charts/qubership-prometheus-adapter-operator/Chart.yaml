@@ -27,4 +27,4 @@ appVersion: 0.6.5
 home: ghcr.io/netcracker/qubership-prometheus-adapter-operator
 maintainers:
   - name: Qubership
-    email: support@qubership.org
+    email: opensourcegroup@netcracker.com

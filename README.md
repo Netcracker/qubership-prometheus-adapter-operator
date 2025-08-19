@@ -31,10 +31,10 @@ To deploy the `qubership-prometheus-adapter-operator` you need to have:
 
 To build `qubership-prometheus-adapter-operator` you need to have:
 
-* make
-* gcc
-* golang 1.19+
-* operator-sdk 1.x
+* `make`
+* `gcc`
+* `golang` 1.19+
+* `operator-sdk` 1.x
 
 ## Installation
 
