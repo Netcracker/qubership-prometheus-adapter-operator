@@ -13,7 +13,7 @@
 # limitations under the License.
 
 # Build the manager binary
-FROM --platform=$BUILDPLATFORM golang:1.25.0-alpine3.22 AS builder
+FROM --platform=$BUILDPLATFORM golang:1.25.1-alpine3.22 AS builder
 ARG BUILDPLATFORM
 ARG TARGETOS
 ARG TARGETARCH
@@ -33,7 +33,7 @@ RUN go work sync
 # Build
 RUN CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${TARGETARCH} GO111MODULE=on go build -a -o manager main.go
 
-# Use alppine tiny images as a base
+# Use alpine tiny images as a base
 FROM alpine:3.22.1
 
 ENV USER_UID=1001 \
