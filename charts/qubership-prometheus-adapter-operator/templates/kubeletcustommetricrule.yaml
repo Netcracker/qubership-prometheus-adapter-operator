@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-apiVersion: monitoring.qubership.org/v1alpha1
+apiVersion: monitoring.netcracker.com/v1
 kind: CustomScaleMetricRule
 metadata:
   name: kubelet-custom-metric-rule

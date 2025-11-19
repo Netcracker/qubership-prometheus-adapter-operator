@@ -19,7 +19,7 @@ import (
 	"fmt"
 	"time"
 
-	v1alpha1 "github.com/Netcracker/qubership-prometheus-adapter-operator/api/v1alpha1"
+	promv1 "github.com/Netcracker/qubership-prometheus-adapter-operator/api/v1"
 	"github.com/Netcracker/qubership-prometheus-adapter-operator/controllers/config"
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/errors"
@@ -38,7 +38,7 @@ import (
 //	# Step 4: Update prometheus-adapter ConfigMap
 func (m *PrometheusAdapterManager) RebuildPrometheusAdapterConfig() error {
 	configMapModel := &ConfigMap{
-		CustomMetricRules: []v1alpha1.CustomMetricRuleConfig{},
+		CustomMetricRules: []promv1.CustomMetricRuleConfig{},
 		ResourceRules:     ResourceRules{},
 	}
 
@@ -60,10 +60,10 @@ func (m *PrometheusAdapterManager) RebuildPrometheusAdapterConfig() error {
 				m.log.Error(err, "Error unmarshal configMap content")
 			}
 		}
-		configMapModel.CustomMetricRules = []v1alpha1.CustomMetricRuleConfig{}
+		configMapModel.CustomMetricRules = []promv1.CustomMetricRuleConfig{}
 	}
 	if cfg.GetEnableCustomMetrics() {
-		allCustomMetricRules := &v1alpha1.CustomScaleMetricRuleList{}
+		allCustomMetricRules := &promv1.CustomScaleMetricRuleList{}
 		// Build label selectors as ListOptions
 		var options []client.ListOption
 		for _, ls := range cfg.GetCustomMetricRulesSelectors() {

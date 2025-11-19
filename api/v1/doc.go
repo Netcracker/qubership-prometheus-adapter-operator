@@ -14,6 +14,6 @@
 
 
 // +k8s:deepcopy-gen=package
-// +groupName=monitoring.qubership.org
+// +groupName=monitoring.netcracker.com
 
-package v1alpha1
+package v1

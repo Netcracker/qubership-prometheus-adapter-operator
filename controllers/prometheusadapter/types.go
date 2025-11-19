@@ -15,7 +15,7 @@
 package prometheusadapter
 
 import (
-	v1alpha1 "github.com/Netcracker/qubership-prometheus-adapter-operator/api/v1alpha1"
+	promv1 "github.com/Netcracker/qubership-prometheus-adapter-operator/api/v1"
 	"github.com/go-logr/logr"
 	pmodel "github.com/prometheus/common/model"
 	"sigs.k8s.io/controller-runtime/pkg/client"
@@ -38,8 +38,8 @@ func NewPrometheusAdapterManager(client client.Client, log logr.Logger) *Prometh
 
 // ConfigMap represents prometheus-adapter ConfigMap which holds metrics rules.
 type ConfigMap struct {
-	CustomMetricRules []v1alpha1.CustomMetricRuleConfig `json:"rules,omitempty"`
-	ResourceRules     ResourceRules                     `json:"resourceRules,omitempty"`
+	CustomMetricRules []promv1.CustomMetricRuleConfig `json:"rules,omitempty"`
+	ResourceRules     ResourceRules                   `json:"resourceRules,omitempty"`
 }
 
 // ResourceRules describe the rules for querying resource metrics
