@@ -5,16 +5,16 @@
 <p>Packages:</p>
 <ul>
 <li>
-<a href="#monitoring.qubership.org%2fv1alpha1">monitoring.qubership.org/v1alpha1</a>
+<a href="#monitoring.netcracker.com%2fv1">monitoring.netcracker.com/v1</a>
 </li>
 </ul>
-<h2 id="monitoring.qubership.org/v1alpha1">monitoring.qubership.org/v1alpha1</h2>
+<h2 id="monitoring.netcracker.com/v1">monitoring.netcracker.com/v1</h2>
 Resource Types:
 <ul></ul>
-<h3 id="monitoring.qubership.org/v1alpha1.Auth">Auth
+<h3 id="monitoring.netcracker.com/v1.Auth">Auth
 </h3>
 <p>
-(<em>Appears on:</em><a href="#monitoring.qubership.org/v1alpha1.PrometheusAdapterSpec">PrometheusAdapterSpec</a>)
+(<em>Appears on:</em><a href="#monitoring.netcracker.com/v1.PrometheusAdapterSpec">PrometheusAdapterSpec</a>)
 </p>
 <div>
 </div>
@@ -40,10 +40,10 @@ Prometheus operator v1 .BasicAuth
 </tr>
 </tbody>
 </table>
-<h3 id="monitoring.qubership.org/v1alpha1.CustomMetricRuleConfig">CustomMetricRuleConfig
+<h3 id="monitoring.netcracker.com/v1.CustomMetricRuleConfig">CustomMetricRuleConfig
 </h3>
 <p>
-(<em>Appears on:</em><a href="#monitoring.qubership.org/v1alpha1.CustomScaleMetricRuleSpec">CustomScaleMetricRuleSpec</a>)
+(<em>Appears on:</em><a href="#monitoring.netcracker.com/v1.CustomScaleMetricRuleSpec">CustomScaleMetricRuleSpec</a>)
 </p>
 <div>
 <p>CustomMetricRuleConfig defines the metric exposing rule from Prometheus.
@@ -74,7 +74,7 @@ series selector query.</p>
 <td>
 <code>seriesFilters</code><br/>
 <em>
-<a href="#monitoring.qubership.org/v1alpha1.RegexFilter">
+<a href="#monitoring.netcracker.com/v1.RegexFilter">
 []RegexFilter
 </a>
 </em>
@@ -91,7 +91,7 @@ match the form specified in Name.</p>
 <td>
 <code>resources</code><br/>
 <em>
-<a href="#monitoring.qubership.org/v1alpha1.ResourceMapping">
+<a href="#monitoring.netcracker.com/v1.ResourceMapping">
 ResourceMapping
 </a>
 </em>
@@ -105,7 +105,7 @@ the given metrics.</p>
 <td>
 <code>name</code><br/>
 <em>
-<a href="#monitoring.qubership.org/v1alpha1.NameMapping">
+<a href="#monitoring.netcracker.com/v1.NameMapping">
 NameMapping
 </a>
 </em>
@@ -132,7 +132,7 @@ are <code>&lt;&lt;</code> and <code>&gt;&gt;</code>.</p>
 </tr>
 </tbody>
 </table>
-<h3 id="monitoring.qubership.org/v1alpha1.CustomScaleMetricRule">CustomScaleMetricRule
+<h3 id="monitoring.netcracker.com/v1.CustomScaleMetricRule">CustomScaleMetricRule
 </h3>
 <div>
 <p>CustomScaleMetricRule is the Schema for the customscalemetricrules API</p>
@@ -149,7 +149,7 @@ are <code>&lt;&lt;</code> and <code>&gt;&gt;</code>.</p>
 <td>
 <code>metadata</code><br/>
 <em>
-<a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#objectmeta-v1-meta">
+<a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.31/#objectmeta-v1-meta">
 Kubernetes meta/v1.ObjectMeta
 </a>
 </em>
@@ -163,7 +163,7 @@ Refer to the Kubernetes API documentation for the fields of the
 <td>
 <code>spec</code><br/>
 <em>
-<a href="#monitoring.qubership.org/v1alpha1.CustomScaleMetricRuleSpec">
+<a href="#monitoring.netcracker.com/v1.CustomScaleMetricRuleSpec">
 CustomScaleMetricRuleSpec
 </a>
 </em>
@@ -176,7 +176,7 @@ CustomScaleMetricRuleSpec
 <td>
 <code>rules</code><br/>
 <em>
-<a href="#monitoring.qubership.org/v1alpha1.CustomMetricRuleConfig">
+<a href="#monitoring.netcracker.com/v1.CustomMetricRuleConfig">
 []CustomMetricRuleConfig
 </a>
 </em>
@@ -191,7 +191,7 @@ CustomScaleMetricRuleSpec
 <td>
 <code>status</code><br/>
 <em>
-<a href="#monitoring.qubership.org/v1alpha1.CustomScaleMetricRuleStatus">
+<a href="#monitoring.netcracker.com/v1.CustomScaleMetricRuleStatus">
 CustomScaleMetricRuleStatus
 </a>
 </em>
@@ -201,10 +201,10 @@ CustomScaleMetricRuleStatus
 </tr>
 </tbody>
 </table>
-<h3 id="monitoring.qubership.org/v1alpha1.CustomScaleMetricRuleSpec">CustomScaleMetricRuleSpec
+<h3 id="monitoring.netcracker.com/v1.CustomScaleMetricRuleSpec">CustomScaleMetricRuleSpec
 </h3>
 <p>
-(<em>Appears on:</em><a href="#monitoring.qubership.org/v1alpha1.CustomScaleMetricRule">CustomScaleMetricRule</a>)
+(<em>Appears on:</em><a href="#monitoring.netcracker.com/v1.CustomScaleMetricRule">CustomScaleMetricRule</a>)
 </p>
 <div>
 <p>CustomScaleMetricRuleSpec defines the desired state of CustomScaleMetricRule</p>
@@ -221,7 +221,7 @@ CustomScaleMetricRuleStatus
 <td>
 <code>rules</code><br/>
 <em>
-<a href="#monitoring.qubership.org/v1alpha1.CustomMetricRuleConfig">
+<a href="#monitoring.netcracker.com/v1.CustomMetricRuleConfig">
 []CustomMetricRuleConfig
 </a>
 </em>
@@ -231,18 +231,18 @@ CustomScaleMetricRuleStatus
 </tr>
 </tbody>
 </table>
-<h3 id="monitoring.qubership.org/v1alpha1.CustomScaleMetricRuleStatus">CustomScaleMetricRuleStatus
+<h3 id="monitoring.netcracker.com/v1.CustomScaleMetricRuleStatus">CustomScaleMetricRuleStatus
 </h3>
 <p>
-(<em>Appears on:</em><a href="#monitoring.qubership.org/v1alpha1.CustomScaleMetricRule">CustomScaleMetricRule</a>)
+(<em>Appears on:</em><a href="#monitoring.netcracker.com/v1.CustomScaleMetricRule">CustomScaleMetricRule</a>)
 </p>
 <div>
 <p>CustomScaleMetricRuleStatus defines the observed state of CustomScaleMetricRule</p>
 </div>
-<h3 id="monitoring.qubership.org/v1alpha1.GroupResource">GroupResource
+<h3 id="monitoring.netcracker.com/v1.GroupResource">GroupResource
 </h3>
 <p>
-(<em>Appears on:</em><a href="#monitoring.qubership.org/v1alpha1.ResourceMapping">ResourceMapping</a>)
+(<em>Appears on:</em><a href="#monitoring.netcracker.com/v1.ResourceMapping">ResourceMapping</a>)
 </p>
 <div>
 <p>GroupResource represents a Kubernetes group-resource.</p>
@@ -277,10 +277,10 @@ string
 </tr>
 </tbody>
 </table>
-<h3 id="monitoring.qubership.org/v1alpha1.NameMapping">NameMapping
+<h3 id="monitoring.netcracker.com/v1.NameMapping">NameMapping
 </h3>
 <p>
-(<em>Appears on:</em><a href="#monitoring.qubership.org/v1alpha1.CustomMetricRuleConfig">CustomMetricRuleConfig</a>)
+(<em>Appears on:</em><a href="#monitoring.netcracker.com/v1.CustomMetricRuleConfig">CustomMetricRuleConfig</a>)
 </p>
 <div>
 <p>NameMapping specifies how to convert Prometheus metrics
@@ -323,7 +323,7 @@ if only one is present, and will error if multiple are.</p>
 </tr>
 </tbody>
 </table>
-<h3 id="monitoring.qubership.org/v1alpha1.PrometheusAdapter">PrometheusAdapter
+<h3 id="monitoring.netcracker.com/v1.PrometheusAdapter">PrometheusAdapter
 </h3>
 <div>
 <p>PrometheusAdapter is the Schema for the prometheusadapters API</p>
@@ -340,7 +340,7 @@ if only one is present, and will error if multiple are.</p>
 <td>
 <code>metadata</code><br/>
 <em>
-<a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#objectmeta-v1-meta">
+<a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.31/#objectmeta-v1-meta">
 Kubernetes meta/v1.ObjectMeta
 </a>
 </em>
@@ -354,7 +354,7 @@ Refer to the Kubernetes API documentation for the fields of the
 <td>
 <code>spec</code><br/>
 <em>
-<a href="#monitoring.qubership.org/v1alpha1.PrometheusAdapterSpec">
+<a href="#monitoring.netcracker.com/v1.PrometheusAdapterSpec">
 PrometheusAdapterSpec
 </a>
 </em>
@@ -435,7 +435,7 @@ bool
 <td>
 <code>customScaleMetricRulesSelector</code><br/>
 <em>
-<a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#*k8s.io/apimachinery/pkg/apis/meta/v1.labelselector--">
+<a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.31/#*k8s.io/apimachinery/pkg/apis/meta/v1.labelselector--">
 []*k8s.io/apimachinery/pkg/apis/meta/v1.LabelSelector
 </a>
 </em>
@@ -449,7 +449,7 @@ CustomScaleMetricRule resources across the cluster.</p>
 <td>
 <code>resources</code><br/>
 <em>
-<a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#resourcerequirements-v1-core">
+<a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.31/#resourcerequirements-v1-core">
 Kubernetes core/v1.ResourceRequirements
 </a>
 </em>
@@ -462,7 +462,7 @@ Kubernetes core/v1.ResourceRequirements
 <td>
 <code>securityContext</code><br/>
 <em>
-<a href="#monitoring.qubership.org/v1alpha1.SecurityContext">
+<a href="#monitoring.netcracker.com/v1.SecurityContext">
 SecurityContext
 </a>
 </em>
@@ -485,7 +485,7 @@ bool
 <td>
 <code>tlsConfig</code><br/>
 <em>
-<a href="#monitoring.qubership.org/v1alpha1.TLSConfig">
+<a href="#monitoring.netcracker.com/v1.TLSConfig">
 TLSConfig
 </a>
 </em>
@@ -497,7 +497,7 @@ TLSConfig
 <td>
 <code>auth</code><br/>
 <em>
-<a href="#monitoring.qubership.org/v1alpha1.Auth">
+<a href="#monitoring.netcracker.com/v1.Auth">
 Auth
 </a>
 </em>
@@ -551,7 +551,7 @@ More info: <a href="https://kubernetes.io/docs/concepts/overview/working-with-ob
 <td>
 <code>affinity</code><br/>
 <em>
-<a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#affinity-v1-core">
+<a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.31/#affinity-v1-core">
 Kubernetes core/v1.Affinity
 </a>
 </em>
@@ -566,7 +566,7 @@ More info: <a href="https://kubernetes.io/docs/concepts/scheduling-eviction/assi
 <td>
 <code>tolerations</code><br/>
 <em>
-<a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#toleration-v1-core">
+<a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.31/#toleration-v1-core">
 []Kubernetes core/v1.Toleration
 </a>
 </em>
@@ -596,7 +596,7 @@ string
 <td>
 <code>status</code><br/>
 <em>
-<a href="#monitoring.qubership.org/v1alpha1.PrometheusAdapterStatus">
+<a href="#monitoring.netcracker.com/v1.PrometheusAdapterStatus">
 PrometheusAdapterStatus
 </a>
 </em>
@@ -606,10 +606,10 @@ PrometheusAdapterStatus
 </tr>
 </tbody>
 </table>
-<h3 id="monitoring.qubership.org/v1alpha1.PrometheusAdapterSpec">PrometheusAdapterSpec
+<h3 id="monitoring.netcracker.com/v1.PrometheusAdapterSpec">PrometheusAdapterSpec
 </h3>
 <p>
-(<em>Appears on:</em><a href="#monitoring.qubership.org/v1alpha1.PrometheusAdapter">PrometheusAdapter</a>)
+(<em>Appears on:</em><a href="#monitoring.netcracker.com/v1.PrometheusAdapter">PrometheusAdapter</a>)
 </p>
 <div>
 <p>PrometheusAdapterSpec defines the desired state of PrometheusAdapter</p>
@@ -694,7 +694,7 @@ bool
 <td>
 <code>customScaleMetricRulesSelector</code><br/>
 <em>
-<a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#*k8s.io/apimachinery/pkg/apis/meta/v1.labelselector--">
+<a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.31/#*k8s.io/apimachinery/pkg/apis/meta/v1.labelselector--">
 []*k8s.io/apimachinery/pkg/apis/meta/v1.LabelSelector
 </a>
 </em>
@@ -708,7 +708,7 @@ CustomScaleMetricRule resources across the cluster.</p>
 <td>
 <code>resources</code><br/>
 <em>
-<a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#resourcerequirements-v1-core">
+<a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.31/#resourcerequirements-v1-core">
 Kubernetes core/v1.ResourceRequirements
 </a>
 </em>
@@ -721,7 +721,7 @@ Kubernetes core/v1.ResourceRequirements
 <td>
 <code>securityContext</code><br/>
 <em>
-<a href="#monitoring.qubership.org/v1alpha1.SecurityContext">
+<a href="#monitoring.netcracker.com/v1.SecurityContext">
 SecurityContext
 </a>
 </em>
@@ -744,7 +744,7 @@ bool
 <td>
 <code>tlsConfig</code><br/>
 <em>
-<a href="#monitoring.qubership.org/v1alpha1.TLSConfig">
+<a href="#monitoring.netcracker.com/v1.TLSConfig">
 TLSConfig
 </a>
 </em>
@@ -756,7 +756,7 @@ TLSConfig
 <td>
 <code>auth</code><br/>
 <em>
-<a href="#monitoring.qubership.org/v1alpha1.Auth">
+<a href="#monitoring.netcracker.com/v1.Auth">
 Auth
 </a>
 </em>
@@ -810,7 +810,7 @@ More info: <a href="https://kubernetes.io/docs/concepts/overview/working-with-ob
 <td>
 <code>affinity</code><br/>
 <em>
-<a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#affinity-v1-core">
+<a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.31/#affinity-v1-core">
 Kubernetes core/v1.Affinity
 </a>
 </em>
@@ -825,7 +825,7 @@ More info: <a href="https://kubernetes.io/docs/concepts/scheduling-eviction/assi
 <td>
 <code>tolerations</code><br/>
 <em>
-<a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#toleration-v1-core">
+<a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.31/#toleration-v1-core">
 []Kubernetes core/v1.Toleration
 </a>
 </em>
@@ -850,18 +850,18 @@ string
 </tr>
 </tbody>
 </table>
-<h3 id="monitoring.qubership.org/v1alpha1.PrometheusAdapterStatus">PrometheusAdapterStatus
+<h3 id="monitoring.netcracker.com/v1.PrometheusAdapterStatus">PrometheusAdapterStatus
 </h3>
 <p>
-(<em>Appears on:</em><a href="#monitoring.qubership.org/v1alpha1.PrometheusAdapter">PrometheusAdapter</a>)
+(<em>Appears on:</em><a href="#monitoring.netcracker.com/v1.PrometheusAdapter">PrometheusAdapter</a>)
 </p>
 <div>
 <p>PrometheusAdapterStatus defines the observed state of PrometheusAdapter</p>
 </div>
-<h3 id="monitoring.qubership.org/v1alpha1.RegexFilter">RegexFilter
+<h3 id="monitoring.netcracker.com/v1.RegexFilter">RegexFilter
 </h3>
 <p>
-(<em>Appears on:</em><a href="#monitoring.qubership.org/v1alpha1.CustomMetricRuleConfig">CustomMetricRuleConfig</a>)
+(<em>Appears on:</em><a href="#monitoring.netcracker.com/v1.CustomMetricRuleConfig">CustomMetricRuleConfig</a>)
 </p>
 <div>
 <p>RegexFilter is a filter that matches positively or negatively against a regex.
@@ -897,10 +897,10 @@ string
 </tr>
 </tbody>
 </table>
-<h3 id="monitoring.qubership.org/v1alpha1.ResourceMapping">ResourceMapping
+<h3 id="monitoring.netcracker.com/v1.ResourceMapping">ResourceMapping
 </h3>
 <p>
-(<em>Appears on:</em><a href="#monitoring.qubership.org/v1alpha1.CustomMetricRuleConfig">CustomMetricRuleConfig</a>)
+(<em>Appears on:</em><a href="#monitoring.netcracker.com/v1.CustomMetricRuleConfig">CustomMetricRuleConfig</a>)
 </p>
 <div>
 <p>ResourceMapping specifies how to map Kubernetes resources to Prometheus labels</p>
@@ -932,8 +932,8 @@ singularized.  The delimiters are <code>&lt;&lt;</code> and <code>&gt;&gt;</code
 <td>
 <code>overrides</code><br/>
 <em>
-<a href="#monitoring.qubership.org/v1alpha1.GroupResource">
-map[string]./v1alpha1/.GroupResource
+<a href="#monitoring.netcracker.com/v1.GroupResource">
+map[string]./v1/.GroupResource
 </a>
 </em>
 </td>
@@ -944,10 +944,10 @@ to group-resources</p>
 </tr>
 </tbody>
 </table>
-<h3 id="monitoring.qubership.org/v1alpha1.SecurityContext">SecurityContext
+<h3 id="monitoring.netcracker.com/v1.SecurityContext">SecurityContext
 </h3>
 <p>
-(<em>Appears on:</em><a href="#monitoring.qubership.org/v1alpha1.PrometheusAdapterSpec">PrometheusAdapterSpec</a>)
+(<em>Appears on:</em><a href="#monitoring.netcracker.com/v1.PrometheusAdapterSpec">PrometheusAdapterSpec</a>)
 </p>
 <div>
 <p>SecurityContext holds pod-level security attributes.
@@ -996,10 +996,10 @@ to be owned by the pod:</p>
 </tr>
 </tbody>
 </table>
-<h3 id="monitoring.qubership.org/v1alpha1.TLSConfig">TLSConfig
+<h3 id="monitoring.netcracker.com/v1.TLSConfig">TLSConfig
 </h3>
 <p>
-(<em>Appears on:</em><a href="#monitoring.qubership.org/v1alpha1.PrometheusAdapterSpec">PrometheusAdapterSpec</a>)
+(<em>Appears on:</em><a href="#monitoring.netcracker.com/v1.PrometheusAdapterSpec">PrometheusAdapterSpec</a>)
 </p>
 <div>
 </div>
@@ -1015,7 +1015,7 @@ to be owned by the pod:</p>
 <td>
 <code>caSecret</code><br/>
 <em>
-<a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#secretkeyselector-v1-core">
+<a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.31/#secretkeyselector-v1-core">
 Kubernetes core/v1.SecretKeySelector
 </a>
 </em>
@@ -1028,7 +1028,7 @@ Kubernetes core/v1.SecretKeySelector
 <td>
 <code>certSecret</code><br/>
 <em>
-<a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#secretkeyselector-v1-core">
+<a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.31/#secretkeyselector-v1-core">
 Kubernetes core/v1.SecretKeySelector
 </a>
 </em>
@@ -1041,7 +1041,7 @@ Kubernetes core/v1.SecretKeySelector
 <td>
 <code>keySecret</code><br/>
 <em>
-<a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#secretkeyselector-v1-core">
+<a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.31/#secretkeyselector-v1-core">
 Kubernetes core/v1.SecretKeySelector
 </a>
 </em>
