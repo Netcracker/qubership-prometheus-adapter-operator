@@ -12,7 +12,7 @@ endif
 #############
 
 # Set build version
-VERSION=0.6.5
+VERSION=0.12.0
 ARTIFACT_NAME=qubership-prometheus-adapter-operator
 
 # Helm charts directory
