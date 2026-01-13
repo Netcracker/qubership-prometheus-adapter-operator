@@ -13,7 +13,7 @@
 # limitations under the License.
 
 prometheusAdapter:
-  image: "ghcr.io/netcracker/prometheus-adapter:main"
+  image: "ghcr.io/netcracker/qubership-prometheus-adapter:main"
   replicas: 2
 
   metricsRelistInterval: "1m"
