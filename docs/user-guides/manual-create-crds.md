@@ -14,7 +14,7 @@ This document describes how to manually create, update or delete Monitoring Cust
 
 Almost all Qubership applications and microservices are integrated with Monitoring. This integration means
 that almost all microservices during deploy can create `CustomScaleMetricRules` objects from the API
-`monitoring.qubership.org`.
+`monitoring.netcracker.com`.
 
 Such objects allow for Monitoring to understand from which microservices and how to collect metrics.
 Similar objects allow providing alerts, recording rules and Grafana dashboards.
@@ -107,7 +107,7 @@ you need to execute the command:
 
 ```bash
 # ams-operator CRD
-kubectl delete crd customscalemetricrules.monitoring.qubership.org
+kubectl delete crd customscalemetricrules.monitoring.netcracker.com
 ```
 
 <!-- #GFCFilterMarkerStart# -->
