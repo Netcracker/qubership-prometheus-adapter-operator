@@ -32,7 +32,7 @@ func TestNewPrometheusAdapterManager(t *testing.T) {
 	manager := NewPrometheusAdapterManager(client, logger)
 
 	if manager == nil {
-		t.Error("expected manager to be created")
+		t.Fatal("expected manager to be created")
 	}
 
 	if manager.client == nil {
