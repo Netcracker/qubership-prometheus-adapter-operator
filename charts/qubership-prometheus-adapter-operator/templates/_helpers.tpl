@@ -58,6 +58,6 @@ Image can be found from:
   {{- if .Values.prometheusAdapter.image -}}
     {{- printf "%s" .Values.prometheusAdapter.image -}}
   {{- else -}}
-    {{- printf "ghcr.io/netcracker/prometheus-adapter:main" -}}
+    {{- printf "ghcr.io/netcracker/qubership-prometheus-adapter:main" -}}
   {{- end -}}
 {{- end -}}

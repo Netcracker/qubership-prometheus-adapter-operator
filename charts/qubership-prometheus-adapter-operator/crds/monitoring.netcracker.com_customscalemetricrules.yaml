@@ -6,11 +6,11 @@ metadata:
     app.kubernetes.io/component: qubership-prometheus-adapter-operator
     app.kubernetes.io/part-of: monitoring
   annotations:
-    controller-gen.kubebuilder.io/version: v0.17.2
-    qubership-prometheus-adapter-operator.monitoring.qubership.org/version: 0.6.5
-  name: customscalemetricrules.monitoring.qubership.org
+    controller-gen.kubebuilder.io/version: v0.20.0
+    qubership-prometheus-adapter-operator.monitoring.netcracker.com/version: 0.12.0
+  name: customscalemetricrules.monitoring.netcracker.com
 spec:
-  group: monitoring.qubership.org
+  group: monitoring.netcracker.com
   names:
     kind: CustomScaleMetricRule
     listKind: CustomScaleMetricRuleList
@@ -18,7 +18,7 @@ spec:
     singular: customscalemetricrule
   scope: Namespaced
   versions:
-  - name: v1alpha1
+  - name: v1
     schema:
       openAPIV3Schema:
         description: CustomScaleMetricRule is the Schema for the customscalemetricrules

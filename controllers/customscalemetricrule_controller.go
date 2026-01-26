@@ -26,7 +26,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/controller"
 
-	v1alpha1 "github.com/Netcracker/qubership-prometheus-adapter-operator/api/v1alpha1"
+	promv1 "github.com/Netcracker/qubership-prometheus-adapter-operator/api/v1"
 	"github.com/Netcracker/qubership-prometheus-adapter-operator/controllers/common"
 	"github.com/Netcracker/qubership-prometheus-adapter-operator/controllers/config"
 	"github.com/Netcracker/qubership-prometheus-adapter-operator/controllers/prometheusadapter"
@@ -55,7 +55,7 @@ func (r *CustomScaleMetricRuleReconciler) Reconcile(ctx context.Context, req ctr
 	prometheusAdapterManager := prometheusadapter.NewPrometheusAdapterManager(r.Client, r.Log)
 
 	// Get CR instance
-	customScaleMetricRule := &v1alpha1.CustomScaleMetricRule{}
+	customScaleMetricRule := &promv1.CustomScaleMetricRule{}
 	err := r.Get(context.TODO(), req.NamespacedName, customScaleMetricRule)
 	if err != nil {
 		if errors.IsNotFound(err) {
@@ -91,7 +91,7 @@ func (r *CustomScaleMetricRuleReconciler) Reconcile(ctx context.Context, req ctr
 // SetupWithManager specifies how the controller is built to watch a CR and other resources that are owned and managed by that controller.
 func (r *CustomScaleMetricRuleReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
-		For(&v1alpha1.CustomScaleMetricRule{}).
+		For(&promv1.CustomScaleMetricRule{}).
 		WithOptions(controller.Options{
 			MaxConcurrentReconciles: 1,
 		}).
