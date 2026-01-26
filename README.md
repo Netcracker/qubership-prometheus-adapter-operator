@@ -59,6 +59,7 @@ execute the following steps:
 ## Release Images
 
 All release images for the `qubership-prometheus-adapter-operator` and for the `prometheus-adapter` published in
+
 * [ghcr.io/netcracker/qubership-prometheus-adapter](https://github.com/Netcracker/qubership-prometheus-adapter-operator/pkgs/container/qubership-prometheus-adapter)
 * [ghcr.io/netcracker/qubership-prometheus-adapter-operator](https://github.com/Netcracker/qubership-prometheus-adapter-operator/pkgs/container/qubership-prometheus-adapter-operator)
 
