@@ -15,7 +15,7 @@
 package bdd_tests
 
 import (
-	api "github.com/Netcracker/qubership-prometheus-adapter-operator/api/v1alpha1"
+	api "github.com/Netcracker/qubership-prometheus-adapter-operator/api/v1"
 	"github.com/Netcracker/qubership-prometheus-adapter-operator/controllers"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"

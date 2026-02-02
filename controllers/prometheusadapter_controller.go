@@ -21,7 +21,7 @@ import (
 	"strings"
 	"time"
 
-	v1alpha1 "github.com/Netcracker/qubership-prometheus-adapter-operator/api/v1alpha1"
+	promv1 "github.com/Netcracker/qubership-prometheus-adapter-operator/api/v1"
 	"github.com/Netcracker/qubership-prometheus-adapter-operator/controllers/config"
 	"github.com/Netcracker/qubership-prometheus-adapter-operator/controllers/prometheusadapter"
 
@@ -51,7 +51,7 @@ func (r *PrometheusAdapterReconciler) Reconcile(ctx context.Context, req ctrl.Re
 	log := r.Log.WithValues("prometheusadapter", req.NamespacedName)
 	log.Info("start reconcile")
 
-	customResourceInstance := &v1alpha1.PrometheusAdapter{}
+	customResourceInstance := &promv1.PrometheusAdapter{}
 	err := r.Client.Get(context.TODO(), req.NamespacedName, customResourceInstance)
 	if err != nil {
 		if errors.IsNotFound(err) {
@@ -142,12 +142,12 @@ func (r *PrometheusAdapterReconciler) Reconcile(ctx context.Context, req ctrl.Re
 // SetupWithManager creates a contreller for PrometheusAdapter
 func (r *PrometheusAdapterReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
-		For(&v1alpha1.PrometheusAdapter{}).
+		For(&promv1.PrometheusAdapter{}).
 		WithEventFilter(predicate.GenerationChangedPredicate{}).
 		Complete(r)
 }
 
-func (r *PrometheusAdapterReconciler) createResource(cr *v1alpha1.PrometheusAdapter, o K8sResource) error {
+func (r *PrometheusAdapterReconciler) createResource(cr *promv1.PrometheusAdapter, o K8sResource) error {
 	oMeta := GetKindedNamespacedName(o)
 	log := r.Log.WithValues(
 		"prometheusadapter", fmt.Sprintf("%s/%s", cr.GetNamespace(), cr.GetName()),
@@ -172,7 +172,7 @@ func (r *PrometheusAdapterReconciler) createResource(cr *v1alpha1.PrometheusAdap
 	return nil
 }
 
-func (r *PrometheusAdapterReconciler) updateResource(cr *v1alpha1.PrometheusAdapter, o K8sResource) error {
+func (r *PrometheusAdapterReconciler) updateResource(cr *promv1.PrometheusAdapter, o K8sResource) error {
 	oMeta := GetKindedNamespacedName(o)
 	log := r.Log.WithValues(
 		"prometheusadapter", fmt.Sprintf("%s/%s", cr.GetNamespace(), cr.GetName()),
@@ -206,7 +206,7 @@ func (r *PrometheusAdapterReconciler) getResource(o K8sResource) error {
 }
 
 // checkDeploymentStatus check if all deployment pods are available
-func (r *PrometheusAdapterReconciler) checkDeploymentStatus(cr *v1alpha1.PrometheusAdapter) bool {
+func (r *PrometheusAdapterReconciler) checkDeploymentStatus(cr *promv1.PrometheusAdapter) bool {
 	log := r.Log.WithValues("prometheusadapter", fmt.Sprintf("%s/%s", cr.GetNamespace(), cr.GetName()))
 	d := &appsv1.Deployment{}
 	deploymentName := "prometheus-adapter"
@@ -229,7 +229,7 @@ func (r *PrometheusAdapterReconciler) checkDeploymentStatus(cr *v1alpha1.Prometh
 	return d.Status.UnavailableReplicas == 0 && d.Status.AvailableReplicas > 0
 }
 
-func (r *PrometheusAdapterReconciler) handleServiceAccount(cr *v1alpha1.PrometheusAdapter) error {
+func (r *PrometheusAdapterReconciler) handleServiceAccount(cr *promv1.PrometheusAdapter) error {
 	log := r.Log.WithValues("prometheusadapter", fmt.Sprintf("%s/%s", cr.GetNamespace(), cr.GetName()))
 	f := NewFactory(cr)
 	m, err := f.PrometheusAdapterServiceAccount()
@@ -261,7 +261,7 @@ func (r *PrometheusAdapterReconciler) handleServiceAccount(cr *v1alpha1.Promethe
 	return nil
 }
 
-func (r *PrometheusAdapterReconciler) handleClusterRole(cr *v1alpha1.PrometheusAdapter) error {
+func (r *PrometheusAdapterReconciler) handleClusterRole(cr *promv1.PrometheusAdapter) error {
 	log := r.Log.WithValues("prometheusadapter", fmt.Sprintf("%s/%s", cr.GetNamespace(), cr.GetName()))
 	f := NewFactory(cr)
 	m, err := f.CustomMetricsClusterRole()
@@ -296,7 +296,7 @@ func (r *PrometheusAdapterReconciler) handleClusterRole(cr *v1alpha1.PrometheusA
 	return nil
 }
 
-func (r *PrometheusAdapterReconciler) handleClusterRoleBinding(cr *v1alpha1.PrometheusAdapter) error {
+func (r *PrometheusAdapterReconciler) handleClusterRoleBinding(cr *promv1.PrometheusAdapter) error {
 	log := r.Log.WithValues("prometheusadapter", fmt.Sprintf("%s/%s", cr.GetNamespace(), cr.GetName()))
 	f := NewFactory(cr)
 	m, err := f.CustomMetricsClusterRoleBinding()
@@ -332,7 +332,7 @@ func (r *PrometheusAdapterReconciler) handleClusterRoleBinding(cr *v1alpha1.Prom
 	return nil
 }
 
-func (r *PrometheusAdapterReconciler) handleConfigMap(cr *v1alpha1.PrometheusAdapter) error {
+func (r *PrometheusAdapterReconciler) handleConfigMap(cr *promv1.PrometheusAdapter) error {
 	log := r.Log.WithValues("prometheusadapter", fmt.Sprintf("%s/%s", cr.GetNamespace(), cr.GetName()))
 	f := NewFactory(cr)
 	m, err := f.CustomMetricsConfigMap()
@@ -364,7 +364,7 @@ func (r *PrometheusAdapterReconciler) handleConfigMap(cr *v1alpha1.PrometheusAda
 	return nil
 }
 
-func (r *PrometheusAdapterReconciler) handleService(cr *v1alpha1.PrometheusAdapter) error {
+func (r *PrometheusAdapterReconciler) handleService(cr *promv1.PrometheusAdapter) error {
 	log := r.Log.WithValues("prometheusadapter", fmt.Sprintf("%s/%s", cr.GetNamespace(), cr.GetName()))
 	f := NewFactory(cr)
 	m, err := f.PrometheusAdapterService()
@@ -397,7 +397,7 @@ func (r *PrometheusAdapterReconciler) handleService(cr *v1alpha1.PrometheusAdapt
 	return nil
 }
 
-func (r *PrometheusAdapterReconciler) handleDeployment(cr *v1alpha1.PrometheusAdapter) error {
+func (r *PrometheusAdapterReconciler) handleDeployment(cr *promv1.PrometheusAdapter) error {
 	log := r.Log.WithValues("prometheusadapter", fmt.Sprintf("%s/%s", cr.GetNamespace(), cr.GetName()))
 	f := NewFactory(cr)
 	m, err := f.PrometheusAdapterDeployment()

@@ -18,11 +18,11 @@ description: A Helm chart for the qubership-prometheus-adapter-operator
 type: application
 
 # The chart version
-version: 0.2.1
+version: 0.2.2
 
 # The version of the application which this chart deploys.
 # This version number should be incremented each time we make changes to the application.
-appVersion: 0.6.5
+appVersion: 0.12.0
 
 home: ghcr.io/netcracker/qubership-prometheus-adapter-operator
 maintainers:

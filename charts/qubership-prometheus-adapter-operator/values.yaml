@@ -209,7 +209,7 @@ prometheusAdapter:
   # Type: string
   # Mandatory: true
   #
-  #image: "ghcr.io/netcracker/prometheus-adapter:main"
+  #image: "ghcr.io/netcracker/qubership-prometheus-adapter:main"
 
   # This is the interval at which to update the cache of available metrics from Prometheus.
   # Since the adapter only lists metrics during discovery that exist between the current time
