@@ -20,7 +20,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/Netcracker/qubership-prometheus-adapter-operator/api/v1alpha1"
+	promv1 "github.com/Netcracker/qubership-prometheus-adapter-operator/api/v1"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 	"k8s.io/client-go/kubernetes/scheme"
@@ -59,7 +59,7 @@ var _ = BeforeSuite(func() {
 	Expect(err).ToNot(HaveOccurred(), "failed to run manager")
 	Expect(cfg).ToNot(BeNil())
 
-	err = v1alpha1.AddToScheme(scheme.Scheme)
+	err = promv1.AddToScheme(scheme.Scheme)
 	Expect(err).NotTo(HaveOccurred())
 
 	// +kubebuilder:scaffold:scheme

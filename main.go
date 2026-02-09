@@ -27,7 +27,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 	metricsserver "sigs.k8s.io/controller-runtime/pkg/metrics/server"
 
-	v1alpha1 "github.com/Netcracker/qubership-prometheus-adapter-operator/api/v1alpha1"
+	promv1 "github.com/Netcracker/qubership-prometheus-adapter-operator/api/v1"
 	"github.com/Netcracker/qubership-prometheus-adapter-operator/controllers"
 	// +kubebuilder:scaffold:imports
 )
@@ -40,7 +40,7 @@ var (
 func init() {
 	utilruntime.Must(clientgoscheme.AddToScheme(scheme))
 
-	utilruntime.Must(v1alpha1.AddToScheme(scheme))
+	utilruntime.Must(promv1.AddToScheme(scheme))
 	// +kubebuilder:scaffold:scheme
 }
 
@@ -61,7 +61,7 @@ func main() {
 			BindAddress: metricsAddr,
 		},
 		LeaderElection:   enableLeaderElection,
-		LeaderElectionID: "4f77f4aa.qubership.org",
+		LeaderElectionID: "4f77f4aa.netcracker.com",
 	})
 	if err != nil {
 		setupLog.Error(err, "unable to start manager")
