@@ -1,2 +1,2 @@
 [codespell]
-skip = go.mod,go.sum,go.work*
+skip = go.mod,go.sum,go.work,go.work.sum
