@@ -38,6 +38,9 @@ API_DOC_GEN_BINARY_DIR?=$(shell pwd)/api
 CONTROLLER_GEN_PACKAGE=sigs.k8s.io/controller-tools/cmd/controller-gen@v0.16.5
 GEN_CRD_API_PACKAGE=github.com/ahmetb/gen-crd-api-reference-docs@v0.3.0
 
+ENVTEST_K8S_VERSION = 1.31.0
+ENVTEST_VERSION ?= release-0.19
+
 # Detect the build environment, local or Jenkins builder
 BUILD_DATE=$(shell date +"%Y%m%d-%T")
 ifndef JENKINS_URL
@@ -187,6 +190,17 @@ unit-test:
 .PHONY: int-test
 int-test:
 	ginkgo ./... -coverprofile cover.out
+
+# Install envtest tools
+.PHONY: envtest-install
+envtest-install: $(ENVTEST) ## Download setup-envtest locally if necessary.
+$(ENVTEST): $(LOCALBIN)
+	$(call go-install-tool,$(ENVTEST),sigs.k8s.io/controller-runtime/tools/setup-envtest,$(ENVTEST_VERSION))
+
+# Run envtests
+.PHONY: envtest
+envtest: envtest-install
+	KUBEBUILDER_ASSETS="$(shell $(ENVTEST) use $(ENVTEST_K8S_VERSION) -i --bin-dir $(LOCALBIN) -p path)" go test ./... -coverprofile cover.out
 
 #################
 # Documentation #
