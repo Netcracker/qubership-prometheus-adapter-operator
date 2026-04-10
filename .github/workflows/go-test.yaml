@@ -13,8 +13,6 @@ jobs:
     with:
       sonar-project-key: ${{ vars.SONAR_PROJECT_KEY }}
       go-module-dir: '.'
-      kube-version: '1.30.0'
-      envtest-version: 'release-0.18'
       install-envtest: true
       skip-docker: true
     secrets: inherit
