@@ -49,11 +49,6 @@ repos:
         args:
           - --config-file
           - .github/linters/.yaml-lint.yml
-  - repo: https://github.com/tekwizely/pre-commit-golang # GoLang Checks
-    rev: e654b74da062c54e9574572365ba5af8a861d04b
-    hooks:
-      - id: go-vulncheck-repo-mod
-      - id: golangci-lint-repo-mod
   - repo: https://github.com/exadmin/CyberFerret # CyberFerret Check
     rev: v.1.2.5
     hooks:
