@@ -3,9 +3,10 @@ module github.com/Netcracker/qubership-prometheus-adapter-operator
 go 1.25.0
 
 require (
+	github.com/Netcracker/qubership-prometheus-adapter-operator/api v0.0.0-20260427065407-5b7baee225d7
 	github.com/go-logr/logr v1.4.3
 	github.com/onsi/ginkgo/v2 v2.28.1
-	github.com/onsi/gomega v1.39.1
+	github.com/onsi/gomega v1.40.0
 	github.com/prometheus/common v0.67.5
 	github.com/stretchr/testify v1.11.1
 	k8s.io/api v0.35.2
@@ -51,6 +52,7 @@ require (
 	github.com/modern-go/reflect2 v1.0.3-0.20250322232337-35a7c28c31ee // indirect
 	github.com/munnerz/goautoneg v0.0.0-20191010083416-a7dc8b61c822 // indirect
 	github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2 // indirect
+	github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring v0.88.1 // indirect
 	github.com/prometheus/client_golang v1.23.2 // indirect
 	github.com/prometheus/client_model v0.6.2 // indirect
 	github.com/prometheus/procfs v0.20.1 // indirect
