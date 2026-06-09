@@ -1,0 +1,16 @@
+The 'qubership-prometheus-adapter-operator' has been deployed. Check its status by running:
+
+kubectl --namespace {{ $.Release.Namespace }} get pods -l "app.kubernetes.io/name={{ template "qubership-prometheus-adapter-operator.fullname" . }}"
+
+Check status of managed adapters:
+kubectl --namespace {{ $.Release.Namespace }} get pods -l "app.kubernetes.io/managed-by={{ template "qubership-prometheus-adapter-operator.fullname" . }}"
+
+Also, for 'qubership-prometheus-adapter-operator' were deployed:
+
+* APIService with the name 'v1beta1.custom.metrics.k8s.io'
+* CustomScaleMetricRule Custom Resource with the name 'kubelet-custom-metric-rule'
+
+Check its status you can by running the following commands:
+
+kubectl --namespace {{ $.Release.Namespace }} get apiservices -l "app.kubernetes.io/name=v1beta1.custom.metrics.k8s.io"
+kubectl --namespace {{ $.Release.Namespace }} get customscalemetricrules -l "app.kubernetes.io/name=kubelet-custom-metric-rule"

@@ -1,0 +1,392 @@
+# Copyright 2024 NetCracker Technology Corporation
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Default values for qubership-qubership-prometheus-adapter-operator.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# Provide a name in place of qubership-prometheus-adapter-operator for `app:` labels
+#
+nameOverride: ""
+
+# Provide a name to substitute for the full names of resources
+#
+fullnameOverride: ""
+
+# A docker image to use for qubership-prometheus-adapter-operator deployment
+# Type: string
+# Mandatory: true
+#
+#image: "ghcr.io/netcracker/qubership-prometheus-adapter-operator:main"
+
+# kubernetes secret name. Only pods which provide own keys can access the private registry.
+imagePullSecrets: []
+
+# Role for qubership-prometheus-adapter-operator to use.
+# Ref: https://kubernetes.io/docs/reference/access-authn-authz/rbac/
+# Type: object
+# Mandatory: no
+#
+role:
+
+  # Allow to disable create Role during deploy
+  # Type: object
+  # Mandatory: no
+  #
+  install: true
+
+# ClusterRole for qubership-prometheus-adapter-operator to use.
+# Ref: https://kubernetes.io/docs/reference/access-authn-authz/rbac/
+# Type: object
+# Mandatory: no
+#
+clusterRole:
+
+  # Allow to disable create ClusterRole during deploy
+  # Type: object
+  # Mandatory: no
+  #
+  install: true
+
+# RoleBinding for qubership-prometheus-adapter-operator to use.
+# Ref: https://kubernetes.io/docs/reference/access-authn-authz/rbac/
+# Type: object
+# Mandatory: no
+#
+roleBinding:
+
+  # Allow to disable create RoleBinding during deploy
+  # Type: object
+  # Mandatory: no
+  #
+  install: true
+
+# ClusterRoleBinding for qubership-prometheus-adapter-operator to use.
+# Ref: https://kubernetes.io/docs/reference/access-authn-authz/rbac/
+# Type: object
+# Mandatory: no
+#
+clusterRoleBinding:
+
+  # Allow to disable create ClusterRoleBinding during deploy
+  # Type: object
+  # Mandatory: no
+  #
+  install: true
+
+# Enable/disable creating APIServices
+#
+APIService:
+  resourceMetrics: true
+  customMetrics: true
+
+# Config for resourceMetrics will be added in prometheus-adapter-resource-rules ConfigMap
+#
+# Example:
+#  resourceRules:
+#    cpu:
+#      containerLabel: container
+#      containerQuery: |
+#        sum by (<<.GroupBy>>) (irate (container_cpu_usage_seconds_total{<<.LabelMatchers>>,container!="",pod!=""}[4m]))
+#      nodeQuery: |
+#        sum by (<<.GroupBy>>) (irate(node_cpu_seconds_total{<<.LabelMatchers>>}[4m]))
+#      resources:
+#        overrides:
+#          namespace:
+#            resource: namespace
+#          node:
+#            resource: node
+#          pod:
+#            resource: pod
+#    memory:
+#      containerLabel: container
+#      containerQuery: |
+#        sum by (<<.GroupBy>>) (container_memory_working_set_bytes{<<.LabelMatchers>>,container!="",pod!=""})
+#      nodeQuery: |
+#        sum by (<<.GroupBy>>) (node_memory_working_set_bytes{<<.LabelMatchers>>})
+#      resources:
+#        overrides:
+#          node:
+#            resource: node
+#          namespace:
+#            resource: namespace
+#          pod:
+#            resource: pod
+#    window: 5m
+# configResourceMetrics: {}
+
+# SecurityContext holds pod-level security attributes.
+# The parameters are required if a Pod Security Policy is enabled
+# for Kubernetes cluster and required if a Security Context Constraints is enabled
+# for Openshift cluster.
+#
+# Mandatory: no
+securityContext: {}
+  # The UID to run the entrypoint of the container process.
+  # Defaults to user specified in image metadata if unspecified.
+  #
+  # Mandatory: no
+  # runAsUser: 2000
+
+  # A special supplemental group that applies to all containers in a pod.
+  # If unset, the Kubelet will not modify the ownership and permissions of any volume.
+  #
+  # Mandatory: no
+  # fsGroup: 2000
+
+# The resources describes the compute resource requests and limits for single Pods.
+# Ref: https://kubernetes.io/docs/user-guide/compute-resources/
+# Type: object
+# Mandatory: no
+#
+resources: {}
+# limits:
+#   cpu: 200m
+#   memory: 200Mi
+# requests:
+#   cpu: 100m
+#   memory: 100Mi
+
+# Allow define which Nodes the Pods are scheduled on.
+# Type: map[string]
+# Mandatory: no
+# Default: not set
+#
+nodeSelector: {}
+
+# Annotations is an unstructured key value map stored
+# with a resource that may be set by external tools to store and retrieve arbitrary metadata.
+# They are not queryable and should be preserved when modifying objects.
+# More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/
+# Type: map[string]string
+# Mandatory: no
+# Default: not set
+#
+annotations: {}
+#  annotation: annotation-value
+
+# Map of string keys and values that can be used to organize and categorize (scope and select) objects.
+# May match selectors of replication controllers and services.
+# More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
+# Type: map[string]string
+# Mandatory: no
+# Default: not set
+#
+labels: {}
+#  label: label-value
+
+# Tolerations allow the pods to schedule onto nodes with matching taints.
+# More info: https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration
+# Type: object
+# Mandatory: no
+# Default: not set
+#
+# tolerations: []
+# - key: key-value
+#   value: value
+#   operator: Equal
+#   effect: NoSchedule
+
+# PriorityClassName assigned to the Pods to prevent them from evicting.
+# Type: string
+# priorityClassName: "priorityClassName"
+
+# The PrometheusAdapter custom resource describes desired states for the prometheus-adapter application.
+#
+prometheusAdapter:
+  # A docker image to use for prometheus-adapter deployment
+  # Type: string
+  # Mandatory: true
+  #
+  #image: "ghcr.io/netcracker/qubership-prometheus-adapter:main"
+
+  # This is the interval at which to update the cache of available metrics from Prometheus.
+  # Since the adapter only lists metrics during discovery that exist between the current time
+  # and the last discovery query, your relist interval should be equal to or larger than your Prometheus scrape interval,
+  # otherwise your metrics will occasionally disappear from the adapter.
+  # Type: string
+  # Mandatory: no
+  #
+  metricsRelistInterval: "1m"
+
+
+  # Enable adapter for `metrics.k8s.io`
+  # Type: boolean
+  # Mandatory: no
+  #
+  enableResourceMetrics: false
+
+  # Enable adapter for `custom.metrics.k8s.io`
+  # Type: boolean
+  # Mandatory: no
+  #
+  enableCustomMetrics: true
+
+  # This is the URL used to connect to Prometheus. It will eventually contain query parameters
+  # to configure the connection.
+  # Type: string
+  # Mandatory: no
+  #
+  prometheusUrl: ""
+
+  # CustomResources's labels to match for CustomScaleMetricRules discovery. If nil, only check all namespaces.
+  # Type: LabelSelector
+  # Mandatory: no
+  #
+  customScaleMetricRulesSelector: []
+
+  # SecurityContext holds pod-level security attributes.
+  # The parameters are required if a Pod Security Policy is enabled
+  # for Kubernetes cluster and required if a Security Context Constraints is enabled
+  # for Openshift cluster.
+  #
+  # Mandatory: no
+  securityContext: {}
+    # The UID to run the entrypoint of the container process.
+    # Defaults to user specified in image metadata if unspecified.
+    #
+    # Mandatory: no
+    # runAsUser: 2000
+
+    # A special supplemental group that applies to all containers in a pod.
+    # If unset, the Kubelet will not modify the ownership and permissions of any volume.
+    #
+    # Mandatory: no
+    # fsGroup: 2000
+
+  # The resources describes the compute resource requests and limits for single Pods.
+  # Ref: https://kubernetes.io/docs/user-guide/compute-resources/
+  # Type: object
+  # Mandatory: no
+  #
+  resources: {}
+  # limits:
+  #   cpu: 200m
+  #   memory: 200Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 100Mi
+
+  # Allow define which Nodes the Pods are scheduled on.
+  # Type: map[string]string
+  # Mandatory: no
+  # Default: not set
+  #
+  nodeSelector: {}
+
+  # Annotations is an unstructured key value map stored
+  # with a resource that may be set by external tools to store and retrieve arbitrary metadata.
+  # They are not queryable and should be preserved when modifying objects.
+  # More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/
+  # Type: map[string]string
+  # Mandatory: no
+  # Default: not set
+  #
+  annotations: {}
+  #  annotation: annotation-value
+
+  # Map of string keys and values that can be used to organize and categorize (scope and select) objects.
+  # May match selectors of replication controllers and services.
+  # More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
+  # Type: map[string]string
+  # Mandatory: no
+  # Default: not set
+  #
+  labels: {}
+  #  label: label-value
+
+  # Enable TLS for prometheus adapter
+  # Type: boolean
+  # Mandatory: no
+  # Default: false
+  #
+  tlsEnabled: false
+
+  # When tlsEnabled is set to true, following section must be configured.
+  #
+  tlsConfig:
+    #   caSecret:
+    #     name: client-ssl-certificate
+    #     key: trusted-ca.crt
+    #   certSecret:
+    #     name: client--ssl-certificate
+    #     key: client-cert.crt
+    #   keySecret:
+    #     name: client-ssl-certificate
+    #     key: client-key.key
+
+    # TLS configuration from existing secret
+    # If specified, all subsequent parameters in tls section are ignored.
+    #
+    # existingSecret: ""
+
+    # Use generateCerts section if you want cert-manager to generate secret.
+    # Will be ignored if existingSecret is already specified.
+    generateCerts:
+      enabled: true
+      duration: 365
+      renewBefore: 15
+      clusterIssuerName: ""
+      secretName: "prometheus-adapter-client-tls-secret"
+
+    # Use createSecret section to create secret with already known content of TLS certificates.
+    # Do not use createSecret if you use generateCerts
+    # Will be ignored if existingSecret is already specified.
+    # createSecret:
+    #   secretName: ""
+    #   ca: ""
+    #   key: ""
+    #   cert: ""
+
+  auth: {}
+  #   basicAuth:
+  #     username:
+  #       name: basic-auth-secret
+  #       key: username
+  #     password:
+  #       name: basic-auth-secret
+  #       key: password
+
+  # If specified, the pod's scheduling constraints
+  # More info: https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#affinity-v1-core
+  # Type: object
+  # Mandatory: no
+  # Default: set
+  #
+  affinity:
+    podAntiAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        - labelSelector:
+            matchExpressions:
+              - key: app.kubernetes.io/name
+                operator: In
+                values:
+                  - prometheus-adapter
+          topologyKey: kubernetes.io/hostname
+
+  # Tolerations allow the pods to schedule onto nodes with matching taints.
+  # More info: https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration
+  # Type: object
+  # Mandatory: no
+  # Default: not set
+  #
+  # tolerations: []
+  # - key: key-value
+  #   value: value
+  #   operator: Equal
+  #   effect: NoSchedule
+
+  # PriorityClassName assigned to the Pods to prevent them from evicting.
+  # Type: string
+  # priorityClassName: "priorityClassName"

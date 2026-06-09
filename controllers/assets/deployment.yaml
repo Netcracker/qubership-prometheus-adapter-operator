@@ -1,0 +1,86 @@
+# Copyright 2024 NetCracker Technology Corporation
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prometheus-adapter
+  labels:
+    name: prometheus-adapter
+    app.kubernetes.io/name: prometheus-adapter
+    app.kubernetes.io/component: prometheus-adapter
+    app.kubernetes.io/part-of: monitoring
+    app.kubernetes.io/managed-by: qubership-prometheus-adapter-operator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: prometheus-adapter
+  template:
+    metadata:
+      name: prometheus-adapter
+      labels:
+        name: prometheus-adapter
+        app.kubernetes.io/name: prometheus-adapter
+        app.kubernetes.io/component: prometheus-adapter
+        app.kubernetes.io/part-of: monitoring
+        app.kubernetes.io/managed-by: qubership-prometheus-adapter-operator
+    spec:
+      serviceAccountName: "prometheus-adapter"
+      nodeSelector: {}
+      securityContext: {}
+      containers:
+      - name: prometheus-adapter
+        image: "k8s-prometheus-adapter-amd64:v0.10.0"
+        imagePullPolicy: IfNotPresent
+        args:
+          - "/adapter"
+          - "--secure-port=6443"
+          - "--cert-dir=/tmp/cert"
+          - "--v=1"
+          - "--config=/etc/adapter/config.yaml"
+        ports:
+          - containerPort: 6443
+            name: https
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: https
+            scheme: HTTPS
+          initialDelaySeconds: 30
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: https
+            scheme: HTTPS
+          initialDelaySeconds: 30
+        resources:
+            limits:
+              cpu: 200m
+              memory: 200Mi
+            requests:
+              cpu: 100m
+              memory: 100Mi
+        volumeMounts:
+        - mountPath: /etc/adapter/
+          name: config
+          readOnly: true
+        - mountPath: /tmp
+          name: tmp
+      volumes:
+      - name: config
+        configMap:
+          name: prometheus-adapter-config
+      - name: tmp
+        emptyDir: {}

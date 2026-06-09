@@ -1,0 +1,128 @@
+# Copyright 2024 NetCracker Technology Corporation
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: monitoring.netcracker.com/v1
+kind: PrometheusAdapter
+metadata:
+  name: prometheus-adapter
+  labels:
+    name: prometheus-adapter
+    app.kubernetes.io/name: prometheus-adapter
+    app.kubernetes.io/instance: {{ cat "prometheus-adapter-" .Release.Namespace | nospace | trunc 63 | trimSuffix "-" }}
+    {{- include "qubership-prometheus-adapter-operator.commonLabels" . | nindent 4 }}
+spec:
+  {{- toYaml .Values.prometheusAdapter | nindent 2 }}
+  image: {{ template "prometheus-adapter.image" . }}
+  replicas: {{ .Values.prometheusAdapter.replicas }}
+  metricsRelistInterval: {{ .Values.prometheusAdapter.metricsRelistInterval }}
+  prometheusUrl: {{ .Values.prometheusAdapter.prometheusUrl }}
+  {{- if .Values.prometheusAdapter.customScaleMetricRulesSelector }}
+  customScaleMetricRulesSelector:
+    {{- toYaml .Values.prometheusAdapter.customScaleMetricRulesSelector | nindent 4 }}
+  {{- end }}
+  enableResourceMetrics: {{ .Values.prometheusAdapter.enableResourceMetrics }}
+  enableCustomMetrics: {{ .Values.prometheusAdapter.enableCustomMetrics }}
+  {{- if .Values.prometheusAdapter.securityContext }}
+  securityContext:
+    {{- toYaml .Values.prometheusAdapter.securityContext | nindent 4 }}
+  {{- end }}
+  {{- if .Values.prometheusAdapter.resources }}
+  resources:
+    {{- toYaml .Values.prometheusAdapter.resources | nindent 4 }}
+  {{- end }}
+  {{- if .Values.prometheusAdapter.labels }}
+  labels:
+    {{- toYaml .Values.prometheusAdapter.labels | nindent 4 }}
+  {{- end }}
+  {{- if .Values.prometheusAdapter.annotations }}
+  annotations:
+    {{- toYaml .Values.prometheusAdapter.annotations | nindent 4 }}
+  {{- end }}
+  {{- if .Values.prometheusAdapter.nodeSelector }}
+  nodeSelector:
+    {{- toYaml .Values.prometheusAdapter.nodeSelector | nindent 4 }}
+  {{- end }}
+  {{- if .Values.prometheusAdapter.affinity }}
+  affinity:
+    {{- toYaml .Values.prometheusAdapter.affinity | nindent 4 }}
+  {{- end }}
+  {{- if .Values.prometheusAdapter.tolerations }}
+  tolerations:
+    {{- toYaml .Values.prometheusAdapter.tolerations | nindent 4 }}
+  {{- end }}
+  {{- if .Values.prometheusAdapter.priorityClassName }}
+  priorityClassName: {{ .Values.prometheusAdapter.priorityClassName | quote }}
+  {{- end }}
+  tlsEnabled: {{ .Values.prometheusAdapter.tlsEnabled | default false }}
+  {{- if .Values.prometheusAdapter.tlsEnabled }}
+  {{- if and .Values.prometheusAdapter.tlsConfig.caSecret .Values.prometheusAdapter.tlsConfig.keySecret .Values.prometheusAdapter.tlsConfig.certSecret }}
+  tlsConfig:
+    caSecret: {{- toYaml .Values.prometheusAdapter.tlsConfig.caSecret | nindent 6 }}
+    certSecret: {{- toYaml .Values.prometheusAdapter.tlsConfig.certSecret | nindent 6 }}
+    keySecret: {{- toYaml .Values.prometheusAdapter.tlsConfig.keySecret | nindent 6 }}
+  {{- else }}
+  {{- if .Values.prometheusAdapter.tlsConfig.existingSecret }}
+  tlsConfig:
+    caSecret:
+      key: "ca.crt"
+      name: {{ .Values.prometheusAdapter.tlsConfig.existingSecret }}
+    certSecret:
+      key: "tls.crt"
+      name: {{ .Values.prometheusAdapter.tlsConfig.existingSecret }}
+    keySecret:
+      key: "tls.key"
+      name: {{ .Values.prometheusAdapter.tlsConfig.existingSecret }}
+  {{- else }}
+  {{- if and .Values.prometheusAdapter.tlsConfig.generateCerts .Values.prometheusAdapter.tlsConfig.generateCerts.enabled }}
+  tlsConfig:
+    caSecret:
+      key: "ca.crt"
+      name: {{ default "prometheus-adapter-client-tls-secret" .Values.prometheusAdapter.tlsConfig.generateCerts.secretName }}
+    certSecret:
+      key: "tls.crt"
+      name: {{ default "prometheus-adapter-client-tls-secret" .Values.prometheusAdapter.tlsConfig.generateCerts.secretName }}
+    keySecret:
+      key: "tls.key"
+      name: {{ default "prometheus-adapter-client-tls-secret" .Values.prometheusAdapter.tlsConfig.generateCerts.secretName }}
+  {{- else }}
+  tlsConfig:
+    caSecret:
+      key: "ca.crt"
+      name: {{ default "prometheus-adapter-client-tls-secret" .Values.prometheusAdapter.tlsConfig.createSecret.secretName }}
+    certSecret:
+      key: "tls.crt"
+      name: {{ default "prometheus-adapter-client-tls-secret" .Values.prometheusAdapter.tlsConfig.createSecret.secretName }}
+    keySecret:
+      key: "tls.key"
+      name: {{ default "prometheus-adapter-client-tls-secret" .Values.prometheusAdapter.tlsConfig.createSecret.secretName }}
+  {{- end }}
+  {{- end }}
+  {{- end }}
+  {{- end }}
+  {{- if .Values.prometheusAdapter.auth }}
+  auth:
+  {{- if .Values.prometheusAdapter.auth.basicAuth }}
+    basicAuth:
+    {{- if .Values.prometheusAdapter.auth.basicAuth.createSecret }}
+      username:
+        name: prometheus-adapter-client-basic-auth
+        key: username
+      password:
+        name: prometheus-adapter-client-basic-auth
+        key: password
+    {{- else }}
+      {{- toYaml .Values.prometheusAdapter.auth.basicAuth | nindent 6 }}
+    {{- end }}
+  {{- end }}
+  {{- end }}

@@ -1,0 +1,130 @@
+# Copyright 2024 NetCracker Technology Corporation
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+{{- if and .Values.clusterRole.install }}
+{{- $fullname := include "qubership-prometheus-adapter-operator.fullname" . }}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ template "qubership-prometheus-adapter-operator.fullname" . }}
+  labels:
+    name: {{ $fullname }}
+    app.kubernetes.io/name: {{ $fullname }}
+    app.kubernetes.io/instance: {{ cat $fullname "-" .Release.Namespace | nospace | trunc 63 | trimSuffix "-" }}
+    {{- include "qubership-prometheus-adapter-operator.commonLabels" . | nindent 4 }}
+rules:
+  # Need to discover CRs in all namespaces
+  - apiGroups:
+      - monitoring.netcracker.com
+    resources:
+      - customscalemetricrules
+      - prometheusadapters
+    verbs:
+      - get
+      - list
+      - watch
+
+  # Need to update statuses and finalizers for all found CRs
+  - apiGroups:
+      - monitoring.netcracker.com
+    resources:
+      - customscalemetricrules/status
+      - customscalemetricrules/finalizers
+      - prometheusadapters/status
+      - prometheusadapters/finalizers
+    verbs:
+      - get
+      - list
+      - watch
+      - update
+      - patch
+
+  # Need to create, update and remove ClusterRoles and ClusterRoleBingind
+  - apiGroups:
+      - rbac.authorization.k8s.io
+    resources:
+      - clusterrolebindings
+      - clusterroles
+      - rolebindings
+      - roles
+    verbs:
+      - create
+      - get
+      - list
+      - watch
+      - update
+      - delete
+
+  # Permissions for leader election
+  - apiGroups:
+      - ""
+    resources:
+      - configmaps
+      - namespaces
+      - services
+      - pods
+      - serviceaccounts
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - apps
+    resources:
+      - deployments
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - authorization.k8s.io
+    resources:
+      - namespaces
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - authorization.k8s.io
+    resources:
+      - subjectaccessreviews
+    verbs:
+      - create
+{{- if or .Values.prometheusAdapter.enableResourceMetrics .Values.prometheusAdapter.enableCustomMetrics }}
+  - verbs:
+      - get
+      - list
+      - watch
+    apiGroups:
+      - ''
+    resources:
+      - nodes
+  - verbs:
+      - get
+      - list
+      - watch
+    apiGroups:
+      - metrics.k8s.io
+    resources:
+      - '*'
+  - verbs:
+      - get
+      - list
+      - watch
+    apiGroups:
+      - custom.metrics.k8s.io
+    resources:
+      - '*'
+{{- end }}
+{{- end }}
