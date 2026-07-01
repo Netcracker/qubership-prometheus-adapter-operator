@@ -34,7 +34,7 @@ RUN go work sync
 RUN CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${TARGETARCH} GO111MODULE=on go build -a -o manager main.go
 
 # Use alpine tiny images as a base
-FROM alpine:3.23.4
+FROM alpine:3.24.1
 
 ENV USER_UID=1001 \
     USER_NAME=operator
