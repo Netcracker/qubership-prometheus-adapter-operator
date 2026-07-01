@@ -6,7 +6,7 @@ metadata:
     app.kubernetes.io/component: qubership-prometheus-adapter-operator
     app.kubernetes.io/part-of: monitoring
   annotations:
-    controller-gen.kubebuilder.io/version: v0.20.0
+    controller-gen.kubebuilder.io/version: v0.21.0
     qubership-prometheus-adapter-operator.monitoring.netcracker.com/version: 0.12.0
   name: customscalemetricrules.monitoring.netcracker.com
 spec:

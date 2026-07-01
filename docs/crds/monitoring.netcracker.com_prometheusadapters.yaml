@@ -6,7 +6,7 @@ metadata:
     app.kubernetes.io/component: qubership-prometheus-adapter-operator
     app.kubernetes.io/part-of: monitoring
   annotations:
-    controller-gen.kubebuilder.io/version: v0.20.0
+    controller-gen.kubebuilder.io/version: v0.21.0
     qubership-prometheus-adapter-operator.monitoring.netcracker.com/version: 0.12.0
   name: prometheusadapters.monitoring.netcracker.com
 spec:
@@ -1307,9 +1307,10 @@ spec:
                     operator:
                       description: |-
                         Operator represents a key's relationship to the value.
-                        Valid operators are Exists and Equal. Defaults to Equal.
+                        Valid operators are Exists, Equal, Lt, and Gt. Defaults to Equal.
                         Exists is equivalent to wildcard for value, so that a pod can
                         tolerate all taints of a particular category.
+                        Lt and Gt perform numeric comparisons (requires feature gate TaintTolerationComparisonOperators).
                       type: string
                     tolerationSeconds:
                       description: |-

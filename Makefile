@@ -32,7 +32,8 @@ CRD_PUBLIC_DOC_FOLDER=$(PUBLIC_DOC_FOLDER)/crds
 # Directories to generate API documentation
 TYPES_V1_TARGET=api/v1/customscalemetricrule_types.go
 TYPES_V1_TARGET+=api/v1/prometheusadapter_types.go
-API_DOC_GEN_BINARY_DIR?=$(shell pwd)/api
+API_DOC_GEN_BINARY_DIR?=$(shell pwd)/build/tools
+API_DOC_GEN_BINARY=$(API_DOC_GEN_BINARY_DIR)/gen-crd-api-reference-docs
 
 # Tools
 CONTROLLER_GEN_PACKAGE=sigs.k8s.io/controller-tools/cmd/controller-gen@v0.16.5
@@ -193,32 +194,29 @@ int-test:
 #################
 
 # Run document generation
+.PHONY: docs
 docs: docs/api.md docs/crds
 
 # Run gen-crd-api-reference-docs to generate API documents by operator API
 docs/api.md: docs/api/gen $(TYPES_V1_TARGET)
-	cd $(API_DOC_GEN_BINARY_DIR) \
+	cd api \
 	&& $(API_DOC_GEN_BINARY) -api-dir "./v1/" \
 							-config "../scripts/docs/config.json" \
 							-template-dir "../scripts/docs/templates" \
-							-out-file "../docs/api.md" \
-	&& rm -rf $(API_DOC_GEN_BINARY)
+							-out-file "../docs/api.md"
 	chmod +x ./scripts/build/append-markdown-linter-comments.sh
 	./scripts/build/append-markdown-linter-comments.sh
 
 # Find or download gen-crd-api-reference-docs, download gen-crd-api-reference-docs if necessary
+.PHONY: docs/api/gen
 docs/api/gen:
-ifeq (, $(shell which ./gen-crd-api-reference-docs))
-	@{ \
-		set -e ;\
-		GOBIN=$(API_DOC_GEN_BINARY_DIR) go install $(GEN_CRD_API_PACKAGE) ;\
-	}
-API_DOC_GEN_BINARY=./gen-crd-api-reference-docs
-else
-API_DOC_GEN_BINARY=$(shell which gen-crd-api-reference-docs)
-endif
+	mkdir -p $(API_DOC_GEN_BINARY_DIR)
+	@if [ ! -x "$(API_DOC_GEN_BINARY)" ]; then \
+		GOBIN=$(API_DOC_GEN_BINARY_DIR) go install $(GEN_CRD_API_PACKAGE); \
+	fi
 
 # Copy CRDs from the Helm chart to documentation directory
+.PHONY: docs/crds
 docs/crds:
 	rm -rf $(CRD_PUBLIC_DOC_FOLDER)/*.yaml
 	mkdir -p $(CRD_PUBLIC_DOC_FOLDER)
