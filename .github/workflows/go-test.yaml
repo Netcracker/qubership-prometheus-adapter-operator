@@ -9,22 +9,21 @@ jobs:
   prepare:
     runs-on: ubuntu-latest
     outputs:
+      restricted-actor: ${{ steps.resolve.outputs.restricted-actor }}
       sonar-project-key: ${{ steps.config.outputs.sonar-project-key }}
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
-      - name: Resolve sonar project key based on restricted actors
+        with:
+          persist-credentials: false
+
+      - name: Resolve restricted actor
+        id: resolve
+        uses: ./.github/actions/resolve-restricted-actor
+
+      - name: Resolve sonar project key
         id: config
-        env:
-          ACTOR: ${{ github.actor }}
         run: |
-          restricted=$(python3 -c "
-          import yaml, os
-          with open('.github/config/build-config.yaml') as f:
-              config = yaml.safe_load(f)
-          actors = config.get('restricted-actors', [])
-          print('true' if os.environ['ACTOR'] in actors else 'false')
-          ")
-          if [ "$restricted" = "true" ]; then
+          if [ "${{ steps.resolve.outputs.restricted-actor }}" = "true" ]; then
             echo "sonar-project-key=" >> "$GITHUB_OUTPUT"
           else
             echo "sonar-project-key=${{ vars.SONAR_PROJECT_KEY }}" >> "$GITHUB_OUTPUT"
