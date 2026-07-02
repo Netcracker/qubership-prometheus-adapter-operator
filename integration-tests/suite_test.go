@@ -15,8 +15,6 @@
 package bdd_tests
 
 import (
-	//"flag"
-
 	"path/filepath"
 	"testing"
 
@@ -67,15 +65,12 @@ var _ = BeforeSuite(func() {
 	k8sClient, err = client.New(cfg, client.Options{Scheme: scheme.Scheme})
 	Expect(err).ToNot(HaveOccurred())
 	Expect(k8sClient).ToNot(BeNil())
-
-	err = testEnv.Stop()
-	Expect(err).ToNot(HaveOccurred())
-
-	By("test successfully completed")
 })
 
 var _ = AfterSuite(func() {
 	By("tearing down the test environment")
-	err := testEnv.Stop()
-	Expect(err).ToNot(HaveOccurred())
+	if testEnv != nil {
+		err := testEnv.Stop()
+		Expect(err).ToNot(HaveOccurred())
+	}
 })
