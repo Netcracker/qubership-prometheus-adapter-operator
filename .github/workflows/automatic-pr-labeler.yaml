@@ -15,9 +15,7 @@ on:
       [opened, reopened, synchronize]
 
 permissions:
-  pull-requests: write
   contents: read
-  issues: write
 
 jobs:
   prepare-config:
