@@ -26,18 +26,19 @@ RUN apk add --no-cache \
     && git clone --depth 1 --branch "${PROMETHEUS_ADAPTER_VERSION}" \
         https://github.com/kubernetes-sigs/prometheus-adapter.git .
 
-RUN go get \
-        go.opentelemetry.io/otel@v1.43.0 \
-        go.opentelemetry.io/otel/metric@v1.43.0 \
-        go.opentelemetry.io/otel/sdk@v1.43.0 \
-        go.opentelemetry.io/otel/trace@v1.43.0 \
-        golang.org/x/crypto@v0.52.0 \
-        golang.org/x/net@v0.55.0 \
-        golang.org/x/oauth2@v0.34.0 \
-        google.golang.org/grpc@v1.79.3
+RUN go mod edit \
+        -require=go.opentelemetry.io/otel@v1.43.0 \
+        -require=go.opentelemetry.io/otel/metric@v1.43.0 \
+        -require=go.opentelemetry.io/otel/sdk@v1.43.0 \
+        -require=go.opentelemetry.io/otel/trace@v1.43.0 \
+        -require=golang.org/x/crypto@v0.52.0 \
+        -require=golang.org/x/net@v0.55.0 \
+        -require=golang.org/x/oauth2@v0.34.0 \
+        -require=google.golang.org/grpc@v1.79.3 \
+    && go mod tidy
 
-RUN CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${TARGETARCH} GO111MODULE=on \
-    go build -trimpath -o /adapter sigs.k8s.io/prometheus-adapter/cmd/adapter
+RUN CGO_ENABLED=0 GOOS="${TARGETOS}" GOARCH="${TARGETARCH}" GO111MODULE=on \
+    go build -mod=readonly -trimpath -o /adapter sigs.k8s.io/prometheus-adapter/cmd/adapter
 
 FROM alpine:3.24.1
 
