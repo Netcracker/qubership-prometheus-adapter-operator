@@ -116,6 +116,12 @@ apiServiceSmokeTest:
   #
   waitTimeout: "180s"
 
+  # Overall timeout for the Helm test Job.
+  # Type: integer
+  # Mandatory: no
+  #
+  activeDeadlineSeconds: 420
+
   # Optional extra APIService names to validate.
   # Type: list[string]
   # Mandatory: no

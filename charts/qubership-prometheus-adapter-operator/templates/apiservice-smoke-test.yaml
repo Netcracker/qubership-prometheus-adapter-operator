@@ -138,7 +138,7 @@ metadata:
     helm.sh/hook-delete-policy: before-hook-creation
 spec:
   backoffLimit: 0
-  activeDeadlineSeconds: 240
+  activeDeadlineSeconds: {{ .Values.apiServiceSmokeTest.activeDeadlineSeconds }}
   ttlSecondsAfterFinished: 900
   template:
     metadata:
