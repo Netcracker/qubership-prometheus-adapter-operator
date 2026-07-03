@@ -91,6 +91,43 @@ APIService:
   resourceMetrics: true
   customMetrics: true
 
+apiServiceSmokeTest:
+  # Enable Helm test resources that validate aggregated APIService availability.
+  # Type: boolean
+  # Mandatory: no
+  #
+  install: false
+
+  # A kubectl image used by the Helm test Job.
+  # Type: string
+  # Mandatory: no
+  #
+  image: "alpine/k8s:1.32.0"
+
+  # Image pull policy for the Helm test Job.
+  # Type: string
+  # Mandatory: no
+  #
+  imagePullPolicy: IfNotPresent
+
+  # Timeout used by kubectl wait for each APIService.
+  # Type: string
+  # Mandatory: no
+  #
+  waitTimeout: "180s"
+
+  # Optional extra APIService names to validate.
+  # Type: list[string]
+  # Mandatory: no
+  #
+  extraAPIServices: []
+
+  # Optional extra raw Kubernetes API paths to validate.
+  # Type: list[string]
+  # Mandatory: no
+  #
+  extraRawPaths: []
+
 # Config for resourceMetrics will be added in prometheus-adapter-resource-rules ConfigMap
 #
 # Example:
