@@ -13,12 +13,37 @@
 # limitations under the License.
 
 # hadolint global ignore=DL3018
-FROM registry.k8s.io/prometheus-adapter/prometheus-adapter:v0.12.0 AS source
+FROM --platform=$BUILDPLATFORM golang:1.26.4-alpine3.22 AS builder
+ARG BUILDPLATFORM
+ARG TARGETOS
+ARG TARGETARCH
+ARG PROMETHEUS_ADAPTER_VERSION=v0.12.0
+
+WORKDIR /workspace
+
+RUN apk add --no-cache \
+        git \
+    && git clone --depth 1 --branch "${PROMETHEUS_ADAPTER_VERSION}" \
+        https://github.com/kubernetes-sigs/prometheus-adapter.git .
+
+RUN go mod edit \
+        -require=go.opentelemetry.io/otel@v1.43.0 \
+        -require=go.opentelemetry.io/otel/metric@v1.43.0 \
+        -require=go.opentelemetry.io/otel/sdk@v1.43.0 \
+        -require=go.opentelemetry.io/otel/trace@v1.43.0 \
+        -require=golang.org/x/crypto@v0.52.0 \
+        -require=golang.org/x/net@v0.55.0 \
+        -require=golang.org/x/oauth2@v0.34.0 \
+        -require=google.golang.org/grpc@v1.79.3 \
+    && go mod tidy
+
+RUN CGO_ENABLED=0 GOOS="${TARGETOS}" GOARCH="${TARGETARCH}" GO111MODULE=on \
+    go build -mod=readonly -trimpath -o /adapter sigs.k8s.io/prometheus-adapter/cmd/adapter
 
 FROM alpine:3.24.1
 
 WORKDIR /
-COPY --from=source /adapter ./
+COPY --from=builder /adapter ./
 COPY entrypoint.sh ./
 
 ENV USER_UID=1001 \
