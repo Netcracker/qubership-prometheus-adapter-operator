@@ -15,6 +15,7 @@
       "matchPackageNames": [
         "!ghcr.io/netcracker/**",
         "!ghcr.io/Netcracker/**",
+        "!alpine",
         "!golang",
         "!docker.io/library/golang",
         "!index.docker.io/library/golang",
