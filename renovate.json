@@ -13,6 +13,8 @@
       "description": "Other Docker images",
       "matchManagers": ["dockerfile"],
       "matchPackageNames": [
+        "!ghcr.io/netcracker/**",
+        "!ghcr.io/Netcracker/**",
         "!golang",
         "!docker.io/library/golang",
         "!index.docker.io/library/golang",
