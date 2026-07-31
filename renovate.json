@@ -5,8 +5,7 @@
     "github>Netcracker/renovate-config:github-actions",
     "github>Netcracker/renovate-config:go",
     "github>Netcracker/renovate-config:netcracker-dependencies",
-    "github>Netcracker/renovate-config:annotated-versions",
-    "schedule:monthly"
+    "github>Netcracker/renovate-config:annotated-versions"
   ],
   "packageRules": [
     {
