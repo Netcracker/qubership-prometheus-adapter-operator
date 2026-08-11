@@ -17,6 +17,7 @@ FROM --platform=$BUILDPLATFORM golang:1.26.4-alpine3.22 AS builder
 ARG BUILDPLATFORM
 ARG TARGETOS
 ARG TARGETARCH
+# renovate: datasource=github-releases depName=kubernetes-sigs/prometheus-adapter versioning=semver
 ARG PROMETHEUS_ADAPTER_VERSION=v0.12.0
 
 WORKDIR /workspace

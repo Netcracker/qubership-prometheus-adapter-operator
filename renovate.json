@@ -1,0 +1,26 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "github>Netcracker/renovate-config:base",
+    "github>Netcracker/renovate-config:github-actions",
+    "github>Netcracker/renovate-config:go",
+    "github>Netcracker/renovate-config:netcracker-dependencies",
+    "github>Netcracker/renovate-config:annotated-versions"
+  ],
+  "packageRules": [
+    {
+      "description": "Other Docker images",
+      "matchManagers": ["dockerfile"],
+      "matchPackageNames": [
+        "!ghcr.io/netcracker/**",
+        "!ghcr.io/Netcracker/**",
+        "!alpine",
+        "!golang",
+        "!docker.io/library/golang",
+        "!index.docker.io/library/golang",
+        "!registry-1.docker.io/library/golang"
+      ],
+      "groupName": "docker-deps"
+    }
+  ]
+}
