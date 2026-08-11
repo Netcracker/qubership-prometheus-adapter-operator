@@ -44,7 +44,7 @@ Image can be found from:
   {{- if .Values.image -}}
     {{- printf "%s" .Values.image -}}
   {{- else -}}
-    {{- printf "ghcr.io/netcracker/qubership-prometheus-adapter-operator:main" -}}
+    {{- printf "ghcr.io/netcracker/qubership-prometheus-adapter-operator:%s" .Chart.AppVersion -}}
   {{- end -}}
 {{- end -}}
 
@@ -58,6 +58,6 @@ Image can be found from:
   {{- if .Values.prometheusAdapter.image -}}
     {{- printf "%s" .Values.prometheusAdapter.image -}}
   {{- else -}}
-    {{- printf "ghcr.io/netcracker/qubership-prometheus-adapter:main" -}}
+    {{- printf "ghcr.io/netcracker/qubership-prometheus-adapter:%s" .Chart.AppVersion -}}
   {{- end -}}
 {{- end -}}

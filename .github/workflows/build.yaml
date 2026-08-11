@@ -1,8 +1,6 @@
 name: Build Artifacts
 
 on:
-  release:
-    types: [created]
   push:
     branches:
     - '**'
@@ -25,6 +23,8 @@ on:
     - 'LICENSE'
     - 'README.md'
     - 'SECURITY.md'
+
+permissions: {}
 
 concurrency:
   # On main/release, we don't want any jobs cancelled so the sha is used to name the group

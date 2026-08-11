@@ -6,7 +6,7 @@ on:
     branches:
       - main
     tags:
-      - 'v*'
+      - '[0-9]+.[0-9]+.[0-9]+'
     paths:
       - .github/workflows/test-sonar-go-coverage.yaml
       - api/**
@@ -29,12 +29,11 @@ on:
       - Makefile
       - integration-tests/**
 
-permissions:
-  contents: read
-
 jobs:
   prepare:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     outputs:
       sonar-project-key: ${{ steps.config.outputs.sonar-project-key }}
     steps:
@@ -75,7 +74,8 @@ jobs:
       kube-version: '1.32.0'
       envtest-version: 'release-0.23'
       skip-docker: true
-    secrets: inherit
+    secrets:
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
     permissions:
       contents: read
       pull-requests: write

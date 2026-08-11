@@ -1,0 +1,140 @@
+name: Docker Images Release
+run-name: ${{ github.repository }} Release ${{ github.event.inputs.release }}
+
+on:
+  workflow_dispatch:
+    inputs:
+      release:
+        description: Release version, for example 0.12.0.
+        required: true
+        type: string
+
+permissions: {}
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  check-tag:
+    name: Check if tag exists
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+    - name: Validate release request
+      env:
+        RELEASE: ${{ inputs.release }}
+        SOURCE_REF: ${{ github.ref }}
+      run: |
+        if ! [[ "$SOURCE_REF" == "refs/heads/main" ]]; then
+          echo "Run releases from the main branch."
+          exit 1
+        fi
+        if ! [[ "$RELEASE" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+          echo "Release must be an unprefixed X.Y.Z version."
+          exit 1
+        fi
+
+    - name: Check if tag exists
+      uses: netcracker/qubership-workflow-hub/actions/tag-action@b6bee6f61fdc8b367777c1173fc852a58878a6a7 # v2.5.0
+      with:
+        tag-name: ${{ inputs.release }}
+        ref: main
+        check-tag: true
+        create-tag: false
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  resolve-config:
+    name: Load Docker build components configuration
+    needs: [check-tag]
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    outputs:
+      config: ${{ steps.resolve.outputs.config }}
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        persist-credentials: false
+
+    - name: Resolve Docker config
+      id: resolve
+      uses: netcracker/qubership-workflow-hub/actions/docker-config-resolver@b6bee6f61fdc8b367777c1173fc852a58878a6a7 # v2.5.0
+      with:
+        file-path: .qubership/docker.cfg
+
+  create-tag:
+    name: Create release tag
+    needs: [resolve-config]
+    environment: release
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+    - name: Create tag
+      uses: netcracker/qubership-workflow-hub/actions/tag-action@b6bee6f61fdc8b367777c1173fc852a58878a6a7 # v2.5.0
+      with:
+        tag-name: ${{ inputs.release }}
+        ref: main
+        check-tag: false
+        create-tag: true
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  docker-build:
+    name: ${{ matrix.component.name }}
+    needs: [resolve-config, create-tag]
+    environment: release
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    permissions:
+      contents: read
+      packages: write
+    strategy:
+      fail-fast: true
+      matrix:
+        component: ${{ fromJson(needs.resolve-config.outputs.config) }}
+    steps:
+    - name: Build and publish Docker image
+      uses: netcracker/qubership-workflow-hub/actions/docker-action@b6bee6f61fdc8b367777c1173fc852a58878a6a7 # v2.5.0
+      with:
+        ref: refs/tags/${{ inputs.release }}
+        dry-run: false
+        component: ${{ toJson(matrix.component) }}
+        platforms: ${{ matrix.component.platforms }}
+        tags: ${{ inputs.release }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  github-release:
+    name: GitHub Release
+    needs: [docker-build]
+    environment: release
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        fetch-depth: 0
+        ref: refs/tags/${{ inputs.release }}
+        persist-credentials: false
+
+    - name: Release Drafter
+      uses: netcracker/release-drafter@130c08399304912ffe90e9604e4328f2fdcd7619 # v1.0.1
+      with:
+        config-name: release-drafter-config.yml
+        publish: true
+        name: ${{ inputs.release }}
+        tag: ${{ inputs.release }}
+        version: ${{ inputs.release }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

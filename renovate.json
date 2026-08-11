@@ -7,6 +7,18 @@
     "github>Netcracker/renovate-config:netcracker-dependencies",
     "github>Netcracker/renovate-config:annotated-versions"
   ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "Update Go module overrides in the Prometheus Adapter Dockerfile",
+      "managerFilePatterns": ["/^prometheus-adapter\\/Dockerfile$/"],
+      "matchStrings": [
+        "-require=(?<depName>[A-Za-z0-9._/-]+)@(?<currentValue>v[0-9]+\\.[0-9]+\\.[0-9]+)"
+      ],
+      "datasourceTemplate": "go",
+      "versioningTemplate": "semver"
+    }
+  ],
   "packageRules": [
     {
       "description": "Other Docker images",

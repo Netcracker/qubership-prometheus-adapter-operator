@@ -59,7 +59,8 @@ jobs:
       - name: Set labels-next safely
         if: ${{ github.event.pull_request.base.repo.id != github.event.pull_request.head.repo.id }}
         run: |
-          echo "LABELS_NEXT=$(echo ${STEPS_ACTION_ASSIGN_LABELS_OUTPUTS_LABELS_NEXT} | tr -dc 'a-zA-Z0-9-,')" >> $GITHUB_ENV
+          sanitized_labels=$(printf '%s' "$STEPS_ACTION_ASSIGN_LABELS_OUTPUTS_LABELS_NEXT" | tr -dc 'a-zA-Z0-9-,')
+          printf 'LABELS_NEXT=%s\n' "$sanitized_labels" >> "$GITHUB_ENV"
         env:
           STEPS_ACTION_ASSIGN_LABELS_OUTPUTS_LABELS_NEXT: ${{ steps.action-assign-labels.outputs.labels-next }}
       - name: "Drop warning if PR from fork"
