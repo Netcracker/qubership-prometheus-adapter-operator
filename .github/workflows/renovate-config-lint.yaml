@@ -13,6 +13,8 @@ on:
     - cron: "45 9 * * 1"
   workflow_dispatch: {}
 
+permissions: {}
+
 jobs:
   validate-renovate-config:
     name: Validate renovate.json

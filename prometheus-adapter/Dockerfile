@@ -13,7 +13,7 @@
 # limitations under the License.
 
 # hadolint global ignore=DL3018
-FROM --platform=$BUILDPLATFORM golang:1.26.4-alpine3.22 AS builder
+FROM --platform=$BUILDPLATFORM golang:1.26.5-alpine3.24@sha256:0178a641fbb4858c5f1b48e34bdaabe0350a330a1b1149aabd498d0699ff5fb2 AS builder
 ARG BUILDPLATFORM
 ARG TARGETOS
 ARG TARGETARCH
@@ -33,15 +33,16 @@ RUN go mod edit \
         -require=go.opentelemetry.io/otel/sdk@v1.43.0 \
         -require=go.opentelemetry.io/otel/trace@v1.43.0 \
         -require=golang.org/x/crypto@v0.52.0 \
-        -require=golang.org/x/net@v0.55.0 \
+        -require=golang.org/x/net@v0.57.0 \
         -require=golang.org/x/oauth2@v0.34.0 \
-        -require=google.golang.org/grpc@v1.79.3 \
+        -require=golang.org/x/text@v0.40.0 \
+        -require=google.golang.org/grpc@v1.82.1 \
     && go mod tidy
 
 RUN CGO_ENABLED=0 GOOS="${TARGETOS}" GOARCH="${TARGETARCH}" GO111MODULE=on \
     go build -mod=readonly -trimpath -o /adapter sigs.k8s.io/prometheus-adapter/cmd/adapter
 
-FROM alpine:3.24.1
+FROM alpine:3.24.1@sha256:28bd5fe8b56d1bd048e5babf5b10710ebe0bae67db86916198a6eec434943f8b
 
 WORKDIR /
 COPY --from=builder /adapter ./

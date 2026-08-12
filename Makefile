@@ -136,9 +136,7 @@ controller-gen:
 
 # Build manager binary
 .PHONY: build-binary
-build-binary: generate fmt
-# TODO: go vet fail build, need to check why?
-# build-binary: generate fmt vet
+build-binary: generate fmt vet
 	echo "=> Build binary ..."
 	$(GO_BUILD_RECIPE) -o build/_binary/manager main.go
 
@@ -253,7 +251,21 @@ archives: cleanup prepare-charts archive-helm-chart archive-crds
 # Remove build dir
 .PHONY: cleanup
 cleanup:
-	rm -rf $(BUILD_DIR)
+	@build_dir="$(abspath $(BUILD_DIR))"; \
+	build_parent="$$(dirname -- "$$build_dir")"; \
+	resolved_parent="$$(realpath -m -- "$$build_parent")"; \
+	case "$$build_dir" in \
+		"$(CURDIR)/build"|"$(CURDIR)/build/"*) ;; \
+		*) echo "refusing to clean unsafe build directory: $(BUILD_DIR)" >&2; exit 1 ;; \
+	esac; \
+	if [ "$$resolved_parent" != "$$build_parent" ]; then \
+		echo "refusing to clean symlinked build directory: $(BUILD_DIR)" >&2; \
+		exit 1; \
+	fi; \
+	if [ -d "$$build_dir" ] && [ ! -L "$$build_dir" ]; then \
+		find -- "$$build_dir" -type d -exec chmod u+w {} +; \
+	fi; \
+	rm -rf -- "$$build_dir"
 
 # Copy Helm charts to the /helm directory because the builder expect it in this dir
 .PHONY: prepare-charts
