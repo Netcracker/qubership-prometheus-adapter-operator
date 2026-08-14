@@ -2,7 +2,7 @@ module github.com/Netcracker/qubership-prometheus-adapter-operator
 
 go 1.26.0
 
-toolchain go1.26.5
+toolchain go1.26.6
 
 require (
 	github.com/Netcracker/qubership-prometheus-adapter-operator/api v0.0.0-20260427065407-5b7baee225d7
