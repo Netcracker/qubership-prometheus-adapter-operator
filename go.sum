@@ -6,6 +6,8 @@ github.com/Netcracker/qubership-prometheus-adapter-operator/api v0.0.0-202608140
 github.com/Netcracker/qubership-prometheus-adapter-operator/api v0.0.0-20260814085113-46f2d16e3fcd/go.mod h1:UPahqWNm89AM0B4WgB6S0/i+SNpEZDUORKvjfV0ohgI=
 github.com/Netcracker/qubership-prometheus-adapter-operator/api v0.0.0-20260819102329-298e3e56bac9 h1:vk1xMk9rKA+rrwTmVKpiZ5WYE+T0S1az/9r611g+umM=
 github.com/Netcracker/qubership-prometheus-adapter-operator/api v0.0.0-20260819102329-298e3e56bac9/go.mod h1:UPahqWNm89AM0B4WgB6S0/i+SNpEZDUORKvjfV0ohgI=
+github.com/Netcracker/qubership-prometheus-adapter-operator/api v0.0.0-20260904094431-9ca6190dd265 h1:XjMY6yP8xRuSjzv3+LVd/PTvbASkdh4MAOFi+UUtz1Q=
+github.com/Netcracker/qubership-prometheus-adapter-operator/api v0.0.0-20260904094431-9ca6190dd265/go.mod h1:UPahqWNm89AM0B4WgB6S0/i+SNpEZDUORKvjfV0ohgI=
 github.com/beorn7/perks v1.0.1 h1:VlbKKnNfV8bJzeqoa4cOKqO6bYr3WgKZxO8Z16+hsOM=
 github.com/beorn7/perks v1.0.1/go.mod h1:G2ZrVWU2WbWT9wwq4/hrbKbnv/1ERSJQ0ibhJ6rlkpw=
 github.com/cespare/xxhash/v2 v2.3.0 h1:UL815xU9SqsFlibzuggzjXhog7bL6oX9BbNZnL2UFvs=
