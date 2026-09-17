@@ -27,6 +27,7 @@ var (
 	GroupVersion = schema.GroupVersion{Group: "monitoring.netcracker.com", Version: "v1"}
 
 	// SchemeBuilder is used to add go types to the GroupVersionKind scheme
+	//nolint:staticcheck // Generated type initializers call Builder.Register with runtime objects.
 	SchemeBuilder = &scheme.Builder{GroupVersion: GroupVersion}
 
 	// AddToScheme adds the types in this group-version to the given scheme.
