@@ -5,25 +5,9 @@ on:
   push:
     branches:
       - "**"
-    paths-ignore:
-      - ".github/**"
-      - "docs/**"
-      - "CODE-OF-CONDUCT.md"
-      - "CONTRIBUTING.md"
-      - "LICENSE"
-      - "README.md"
-      - "SECURITY.md"
   pull_request:
     branches:
       - "**"
-    paths-ignore:
-      - ".github/**"
-      - "docs/**"
-      - "CODE-OF-CONDUCT.md"
-      - "CONTRIBUTING.md"
-      - "LICENSE"
-      - "README.md"
-      - "SECURITY.md"
 
 permissions: {}
 
@@ -32,8 +16,43 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  changes:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+    outputs:
+      helm: ${{ steps.filter.outputs.helm == 'true' || steps.filter.outputs.workflow == 'true' }}
+    steps:
+      - name: Checkout push
+        if: github.event_name != 'pull_request'
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Detect Helm smoke test changes
+        id: filter
+        uses: dorny/paths-filter@ceb8a2b8f2d89434be7ff52d3de7ec3738c5cc9d # v4.0.3
+        with:
+          predicate-quantifier: some-with-excludes
+          filters: |
+            helm:
+              - '**'
+              - '!.github/**'
+              - '!docs/**'
+              - '!CODE-OF-CONDUCT.md'
+              - '!CONTRIBUTING.md'
+              - '!LICENSE'
+              - '!README.md'
+              - '!SECURITY.md'
+            workflow:
+              - '.github/workflows/helm-apiservice-smoke-test.yaml'
+
   helm-test:
     name: Helm test in kind
+    needs: changes
+    if: needs.changes.outputs.helm != 'false'
     runs-on: ubuntu-latest
     timeout-minutes: 30
     permissions:
@@ -198,3 +217,17 @@ jobs:
           kubectl get apiservices v1beta1.custom.metrics.k8s.io v1beta1.metrics.k8s.io -o yaml
           kubectl -n monitoring logs deploy/qubership-prometheus-adapter-operator --tail=200 || true
           kubectl -n monitoring logs deploy/prometheus-adapter --tail=200 || true
+
+  helm-ci-gate:
+    name: Helm CI Gate
+    needs: [changes, helm-test]
+    if: always() && github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    permissions: {}
+    steps:
+      - name: Require Helm validation when applicable
+        if: >-
+          needs.changes.result != 'success' ||
+          (needs.changes.outputs.helm != 'false' &&
+          needs.helm-test.result != 'success')
+        run: exit 1

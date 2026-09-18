@@ -1,28 +1,13 @@
 name: Build Artifacts
+run-name: "Ref: ${{ github.ref_name }}. On ${{ github.event_name }}"
 
 on:
   push:
     branches:
-    - '**'
-    paths-ignore:
-    - '.github/**'
-    - 'docs/**'
-    - 'CODE-OF-CONDUCT.md'
-    - 'CONTRIBUTING.md'
-    - 'LICENSE'
-    - 'README.md'
-    - 'SECURITY.md'
+      - '**'
   pull_request:
     branches:
-    - '**'
-    paths-ignore:
-    - '.github/**'
-    - 'docs/**'
-    - 'CODE-OF-CONDUCT.md'
-    - 'CONTRIBUTING.md'
-    - 'LICENSE'
-    - 'README.md'
-    - 'SECURITY.md'
+      - '**'
 
 permissions: {}
 
@@ -34,26 +19,111 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  changes:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+    outputs:
+      build: ${{ steps.filter.outputs.build == 'true' || steps.filter.outputs.workflow == 'true' }}
+    steps:
+      - name: Checkout push
+        if: github.event_name != 'pull_request'
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Detect build changes
+        id: filter
+        uses: dorny/paths-filter@ceb8a2b8f2d89434be7ff52d3de7ec3738c5cc9d # v4.0.3
+        with:
+          predicate-quantifier: some-with-excludes
+          filters: |
+            build:
+              - '**'
+              - '!.github/**'
+              - '!docs/**'
+              - '!CODE-OF-CONDUCT.md'
+              - '!CONTRIBUTING.md'
+              - '!LICENSE'
+              - '!README.md'
+              - '!SECURITY.md'
+            workflow:
+              - '.github/workflows/build.yaml'
+              - '.github/actions/resolve-restricted-actor/**'
+
   prepare-config:
+    needs: changes
+    if: needs.changes.outputs.build != 'false'
     runs-on: ubuntu-latest
     permissions:
       contents: read
     outputs:
       restricted-actor: ${{ steps.resolve.outputs.restricted-actor }}
     steps:
-    - name: Checkout
-      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-      with:
-        persist-credentials: false
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
-    - name: Resolve restricted actor
-      id: resolve
-      uses: ./.github/actions/resolve-restricted-actor
+      - name: Resolve restricted actor
+        id: resolve
+        uses: ./.github/actions/resolve-restricted-actor
 
   multiplatform_build:
-    needs: prepare-config
-    # Build PRs only if the event comes from Dependabot. Skip branch pushes
-    if: github.event.pull_request.user.login != 'dependabot[bot]' || github.event_name == 'pull_request'
+    needs: [changes, prepare-config]
+    if: github.event_name == 'pull_request' && needs.changes.outputs.build != 'false'
+    permissions:
+      contents: read
+      packages: read
+    strategy:
+      fail-fast: false
+      matrix:
+        component:
+          - name: qubership-prometheus-adapter-operator
+            file: Dockerfile
+            context: .
+          - name: qubership-prometheus-adapter
+            file: prometheus-adapter/Dockerfile
+            context: prometheus-adapter
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    name: ${{ matrix.component.name }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@dc802804100637a589fabce1cb79ff13a1411302 # v6
+        with:
+          images: ghcr.io/${{ github.repository_owner }}/${{ matrix.component.name }}
+          tags: type=ref,event=pr
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@1f40c72289eff860ee54a304f1438e3cff362e0a # v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@37fe631027851001ddb9b187196cc803df7f5f0e # v4
+
+      - name: Build
+        uses: docker/build-push-action@53b7df96c91f9c12dcc8a07bcb9ccacbed38856a # v7
+        with:
+          no-cache: true
+          context: ${{ matrix.component.context }}
+          file: ${{ matrix.component.file }}
+          platforms: linux/amd64,linux/arm64
+          push: false
+          provenance: false
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+  multiplatform_publish:
+    needs: [changes, prepare-config]
+    if: github.event_name != 'pull_request' && needs.changes.outputs.build != 'false'
     permissions:
       contents: read
       packages: write
@@ -61,46 +131,67 @@ jobs:
       fail-fast: false
       matrix:
         component:
-        - name: qubership-prometheus-adapter-operator
-          file: Dockerfile
-          context: .
-        - name: qubership-prometheus-adapter
-          file: prometheus-adapter/Dockerfile
-          context: prometheus-adapter
+          - name: qubership-prometheus-adapter-operator
+            file: Dockerfile
+            context: .
+          - name: qubership-prometheus-adapter
+            file: prometheus-adapter/Dockerfile
+            context: prometheus-adapter
     runs-on: ubuntu-latest
-    name: ${{ matrix.component.name }}
+    timeout-minutes: 45
+    name: Publish ${{ matrix.component.name }}
     steps:
-    - name: Checkout
-      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-    - name: Docker meta
-      id: meta
-      uses: docker/metadata-action@dc802804100637a589fabce1cb79ff13a1411302 # v6
-      with:
-        images: |
-          ghcr.io/${{ github.repository_owner }}/${{ matrix.component.name }}
-        tags: |
-          type=ref,event=branch
-          type=ref,event=tag
-    - name: Set up QEMU
-      uses: docker/setup-qemu-action@96fe6ef7f33517b61c61be40b68a1882f3264fb8 # v4
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@bb05f3f5519dd87d3ba754cc423b652a5edd6d2c # v4
-    - name: Login to Docker Hub
-      if: ${{ github.event_name != 'pull_request' && needs.prepare-config.outputs.restricted-actor != 'true' }}
-      uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f # v4
-      with:
-        registry: ghcr.io
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
-    - name: Build and push
-      uses: docker/build-push-action@53b7df96c91f9c12dcc8a07bcb9ccacbed38856a # v7
-      with:
-        no-cache: true
-        context: ${{ matrix.component.context }}
-        file: ${{ matrix.component.file }}
-        platforms: linux/amd64,linux/arm64
-        # See https://docs.github.com/en/code-security/dependabot/working-with-dependabot/automating-dependabot-with-github-actions#fetching-metadata-about-a-pull-request
-        push: ${{ github.event_name != 'pull_request' && needs.prepare-config.outputs.restricted-actor != 'true' }}
-        provenance: false
-        tags: ${{ steps.meta.outputs.tags }}
-        labels: ${{ steps.meta.outputs.labels }}
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@dc802804100637a589fabce1cb79ff13a1411302 # v6
+        with:
+          images: ghcr.io/${{ github.repository_owner }}/${{ matrix.component.name }}
+          tags: |
+            type=ref,event=branch
+            type=ref,event=tag
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@1f40c72289eff860ee54a304f1438e3cff362e0a # v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@37fe631027851001ddb9b187196cc803df7f5f0e # v4
+
+      - name: Login to GHCR
+        if: needs.prepare-config.outputs.restricted-actor != 'true'
+        uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f # v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push
+        uses: docker/build-push-action@53b7df96c91f9c12dcc8a07bcb9ccacbed38856a # v7
+        with:
+          no-cache: true
+          context: ${{ matrix.component.context }}
+          file: ${{ matrix.component.file }}
+          platforms: linux/amd64,linux/arm64
+          push: ${{ needs.prepare-config.outputs.restricted-actor != 'true' }}
+          provenance: false
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+  build-gate:
+    name: Build Gate
+    needs: [changes, prepare-config, multiplatform_build]
+    if: always() && github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    permissions: {}
+    steps:
+      - name: Require builds when applicable
+        if: >-
+          needs.changes.result != 'success' ||
+          (needs.changes.outputs.build != 'false' &&
+          (needs.prepare-config.result != 'success' ||
+          needs.multiplatform_build.result != 'success'))
+        run: exit 1
