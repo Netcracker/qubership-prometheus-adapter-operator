@@ -30,7 +30,7 @@ RUN apk add --no-cache \
 RUN go mod edit \
         -require=go.opentelemetry.io/otel@v1.44.0 \
         -require=go.opentelemetry.io/otel/metric@v1.43.0 \
-        -require=go.opentelemetry.io/otel/sdk@v1.43.0 \
+        -require=go.opentelemetry.io/otel/sdk@v1.45.0 \
         -require=go.opentelemetry.io/otel/trace@v1.43.0 \
         -require=golang.org/x/crypto@v0.52.0 \
         -require=golang.org/x/net@v0.57.0 \
