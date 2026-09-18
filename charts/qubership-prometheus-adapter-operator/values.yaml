@@ -102,7 +102,7 @@ apiServiceSmokeTest:
   # Type: string
   # Mandatory: no
   #
-  image: "alpine/k8s:1.32.0@sha256:4c28b0f0c6accfa07fa449493ea936291e4ff1270500571d73f75bb406676c3b"
+  image: "alpine/k8s:1.37.0@sha256:b421c2e9419edb98db39b6ab641669f4db7bb2acf354f22450c6b7e7176d1ff4"
 
   # Image pull policy for the Helm test Job.
   # Type: string
