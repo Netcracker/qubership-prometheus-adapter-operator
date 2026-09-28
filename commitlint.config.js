@@ -1,4 +1,4 @@
-/* eslint-env node */
+/* eslint-disable no-undef -- CommonJS Node config; flat eslint has no Node globals */
 const { execFileSync } = require('child_process');
 
 const BOT_AUTHORS = new Set(['renovate[bot]', 'dependabot[bot]']);
