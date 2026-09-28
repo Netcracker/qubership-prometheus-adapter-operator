@@ -1,3 +1,4 @@
+/* eslint-env node */
 const { execFileSync } = require('child_process');
 
 const BOT_AUTHORS = new Set(['renovate[bot]', 'dependabot[bot]']);
