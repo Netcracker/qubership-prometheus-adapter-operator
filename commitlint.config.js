@@ -3,27 +3,33 @@ const { execFileSync } = require('child_process');
 
 const BOT_AUTHORS = new Set(['renovate[bot]', 'dependabot[bot]']);
 const HUMAN_HEADER_MAX = 100;
+const COMMIT_RECORD_MARKER = '---commitlint-author-lookup---';
+
+function normalizeCommitMessage(msg) {
+  return String(msg || '')
+    .replace(/\r\n/g, '\n')
+    .replace(/\n+$/, '');
+}
 
 function authorForCommitMessage(raw) {
   if (process.env.COMMITLINT_COMMIT_AUTHOR) {
     return process.env.COMMITLINT_COMMIT_AUTHOR.trim();
   }
 
-  const header = String(raw || '')
-    .split('\n')[0]
-    .trim();
-  if (!header) {
+  // commitlint only hands the rule the message text (stdin, --last, or each
+  // --from/--to entry). Identify that exact commit by a unique full-message
+  // match in the same range super-linter uses. Newest-first subject lookup is
+  // unsafe: a later bot commit with the same subject would exempt a human.
+  const needle = normalizeCommitMessage(raw);
+  if (!needle) {
     return '';
   }
 
-  // Prefer the range super-linter passes to commitlint (--from/--to). Fall back to
-  // recent HEAD ancestry so a bot commit on its own branch still resolves. Never
-  // search --all: that would exempt a human who pastes a bot subject on stdin.
   const from = process.env.GITHUB_BEFORE_SHA;
   const to = process.env.GITHUB_SHA || 'HEAD';
   const gitArgs = from
-    ? ['log', `${from}..${to}`, '--format=%an%x09%s']
-    : ['log', '-n', '50', to, '--format=%an%x09%s'];
+    ? ['log', `${from}..${to}`, `--format=${COMMIT_RECORD_MARKER}%n%H%n%an%n%B`]
+    : ['log', '-n', '50', to, `--format=${COMMIT_RECORD_MARKER}%n%H%n%an%n%B`];
 
   try {
     const log = execFileSync('git', gitArgs, {
@@ -31,25 +37,33 @@ function authorForCommitMessage(raw) {
       maxBuffer: 20 * 1024 * 1024,
       stdio: ['ignore', 'pipe', 'ignore'],
     });
-    for (const line of log.split('\n')) {
-      if (!line) {
+
+    const authors = [];
+    for (const chunk of log.split(COMMIT_RECORD_MARKER).slice(1)) {
+      const body = chunk.replace(/^\n/, '');
+      const nl1 = body.indexOf('\n');
+      if (nl1 === -1) {
         continue;
       }
-      const tab = line.indexOf('\t');
-      if (tab === -1) {
+      const nl2 = body.indexOf('\n', nl1 + 1);
+      if (nl2 === -1) {
         continue;
       }
-      const author = line.slice(0, tab);
-      const subject = line.slice(tab + 1);
-      if (subject === header) {
-        return author;
+      const author = body.slice(nl1 + 1, nl2);
+      const message = normalizeCommitMessage(body.slice(nl2 + 1));
+      if (message === needle) {
+        authors.push(author);
       }
     }
+
+    // Ambiguous or missing match: fail closed (human header-max-length applies).
+    if (authors.length !== 1) {
+      return '';
+    }
+    return authors[0];
   } catch {
     return '';
   }
-
-  return '';
 }
 
 module.exports = {
@@ -57,7 +71,7 @@ module.exports = {
   helpUrl: 'https://www.conventionalcommits.org/',
   // We need this until https://github.com/dependabot/dependabot-core/issues/2445
   // is resolved.
-  ignores: [(msg) => /Signed-off-by: dependabot\[bot]/m.test(msg)],
+  ignores: [(msg) => /Signed-off-by: dependabot\[bot\]/m.test(msg)],
   plugins: [
     {
       rules: {
