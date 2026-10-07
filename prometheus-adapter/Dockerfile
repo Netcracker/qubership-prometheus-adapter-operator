@@ -35,7 +35,7 @@ RUN go mod edit \
         -require=golang.org/x/crypto@v0.56.0 \
         -require=golang.org/x/net@v0.57.0 \
         -require=golang.org/x/oauth2@v0.34.0 \
-        -require=golang.org/x/text@v0.40.0 \
+        -require=golang.org/x/text@v0.41.0 \
         -require=google.golang.org/grpc@v1.83.2 \
     && go mod tidy
 
