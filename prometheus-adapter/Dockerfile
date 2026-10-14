@@ -33,7 +33,7 @@ RUN go mod edit \
         -require=go.opentelemetry.io/otel/sdk@v1.45.0 \
         -require=go.opentelemetry.io/otel/trace@v1.43.0 \
         -require=golang.org/x/crypto@v0.58.0 \
-        -require=golang.org/x/net@v0.60.0 \
+        -require=golang.org/x/net@v0.61.0 \
         -require=golang.org/x/oauth2@v0.37.0 \
         -require=golang.org/x/text@v0.41.0 \
         -require=google.golang.org/grpc@v1.84.0 \
