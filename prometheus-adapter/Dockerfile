@@ -28,6 +28,7 @@ RUN apk add --no-cache \
         https://github.com/kubernetes-sigs/prometheus-adapter.git .
 
 RUN go mod edit \
+        -replace=go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp=go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp@v0.64.0 \
         -require=go.opentelemetry.io/otel@v1.47.0 \
         -require=go.opentelemetry.io/otel/metric@v1.47.0 \
         -require=go.opentelemetry.io/otel/sdk@v1.47.0 \
