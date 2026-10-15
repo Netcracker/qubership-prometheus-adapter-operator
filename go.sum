@@ -1,7 +1,7 @@
 github.com/Masterminds/semver/v3 v3.4.0 h1:Zog+i5UMtVoCU8oKka5P7i9q9HgrJeGzI9SA1Xbatp0=
 github.com/Masterminds/semver/v3 v3.4.0/go.mod h1:4V+yj/TJE1HU9XfppCwVMZq3I84lprf4nC11bSS5beM=
-github.com/Netcracker/qubership-prometheus-adapter-operator/api v0.0.0-20261014131830-37a3fc935642 h1:o9/ejDgVbbHFh2PpC8KlORUj+QB6SV3uAKu3tlVeTAo=
-github.com/Netcracker/qubership-prometheus-adapter-operator/api v0.0.0-20261014131830-37a3fc935642/go.mod h1:PLwwaL1b8O2OkTUuc59LZJE7WGEYNGxvGsxzGl33MNc=
+github.com/Netcracker/qubership-prometheus-adapter-operator/api v0.0.0-20261015054217-f924a842d178 h1:HSTEBVxO3H+SRxKB3jULoKWh5aIsPg9R0gMhPvquOzo=
+github.com/Netcracker/qubership-prometheus-adapter-operator/api v0.0.0-20261015054217-f924a842d178/go.mod h1:ZFfTOmk08okV5sHifutR/2CL8jOJ73TCW6jy8OL0zWg=
 github.com/beorn7/perks v1.0.1 h1:VlbKKnNfV8bJzeqoa4cOKqO6bYr3WgKZxO8Z16+hsOM=
 github.com/beorn7/perks v1.0.1/go.mod h1:G2ZrVWU2WbWT9wwq4/hrbKbnv/1ERSJQ0ibhJ6rlkpw=
 github.com/cespare/xxhash/v2 v2.3.0 h1:UL815xU9SqsFlibzuggzjXhog7bL6oX9BbNZnL2UFvs=
@@ -112,8 +112,8 @@ github.com/pkg/errors v0.9.1/go.mod h1:bwawxfHBFNV+L2hUp1rHADufV3IMtnDRdf1r5NINE
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
 github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2 h1:Jamvg5psRIccs7FGNTlIRMkT8wgtp5eCXdBlqhYGL6U=
 github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
-github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring v0.94.0 h1:Gvs3KO8elkAvrGGPXycg6VndtJYIm4vJukywOu5bzOw=
-github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring v0.94.0/go.mod h1:n4uH73YCwqQomLLIKEthHFwh4F9PneNaP6eaIIscpVg=
+github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring v0.94.1 h1:TWZqERWd1r20mHm6rCahhWuCaDq4PQFHgzQifOpFsc0=
+github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring v0.94.1/go.mod h1:n4uH73YCwqQomLLIKEthHFwh4F9PneNaP6eaIIscpVg=
 github.com/prometheus/client_golang v1.24.0 h1:5XStIklKuAtJSNpdD3s8XJj/Yv78IQmE1kbNk87JrAI=
 github.com/prometheus/client_golang v1.24.0/go.mod h1:QcsNdotprC2nS4BTM2ucbcqxd2CeXTEa9jW7zHO9iDE=
 github.com/prometheus/client_model v0.6.3 h1:O0jaTVAYNxTHYInEPFJt5I3+sN8zqBtVMPTB1qyxiEo=
