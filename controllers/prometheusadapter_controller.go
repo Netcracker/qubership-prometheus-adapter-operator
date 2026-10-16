@@ -63,7 +63,7 @@ func (r *PrometheusAdapterReconciler) Reconcile(ctx context.Context, req ctrl.Re
 			cfg.SetActivatedBy(nil)
 			cfg.SetCustomMetricRulesSelectors(config.EmptyLabelSelector)
 			cfg.SetEnabledAdapters(customResourceInstance.Spec.EnableResourceMetrics, customResourceInstance.Spec.EnableCustomMetrics)
-			return ctrl.Result{Requeue: false}, nil
+			return ctrl.Result{}, nil
 		}
 		// Error reading the object - requeue the request.
 		return ctrl.Result{}, err

@@ -66,7 +66,7 @@ func (r *CustomScaleMetricRuleReconciler) Reconcile(ctx context.Context, req ctr
 			// Request object not found, could have been deleted after reconcile request.
 			// Owned objects are automatically garbage collected. For additional cleanup logic use finalizes.
 			// Return and don't requeue
-			return ctrl.Result{Requeue: false}, nil
+			return ctrl.Result{}, nil
 		}
 		// Error reading the object - requeue the request.
 		return ctrl.Result{}, err
@@ -78,7 +78,7 @@ func (r *CustomScaleMetricRuleReconciler) Reconcile(ctx context.Context, req ctr
 		log.Error(err, "error matching selectors")
 		return ctrl.Result{RequeueAfter: 60 * time.Second}, nil
 	} else if !match {
-		return ctrl.Result{Requeue: false}, nil
+		return ctrl.Result{}, nil
 	}
 
 	if err := prometheusAdapterManager.RebuildPrometheusAdapterConfig(); err != nil {
