@@ -3,7 +3,7 @@ module github.com/Netcracker/qubership-prometheus-adapter-operator/api
 go 1.26.0
 
 require (
-	github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring v0.94.1
+	github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring v0.94.2
 	k8s.io/api v0.37.1
 	k8s.io/apimachinery v0.37.1
 	sigs.k8s.io/controller-runtime v0.25.2
