@@ -5,7 +5,7 @@ go 1.26.0
 toolchain go1.26.10
 
 require (
-	github.com/Netcracker/qubership-prometheus-adapter-operator/api v0.0.0-20261030214327-f65fbac021b5
+	github.com/Netcracker/qubership-prometheus-adapter-operator/api v0.0.0-20261031011946-7c88fb65dd11
 	github.com/go-logr/logr v1.4.4
 	github.com/onsi/ginkgo/v2 v2.33.1
 	github.com/onsi/gomega v1.44.0
