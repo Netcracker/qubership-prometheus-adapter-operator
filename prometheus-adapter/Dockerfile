@@ -37,7 +37,7 @@ RUN go mod edit \
         -require=golang.org/x/net@v0.62.0 \
         -require=golang.org/x/oauth2@v0.37.0 \
         -require=golang.org/x/text@v0.43.0 \
-        -require=google.golang.org/grpc@v1.84.0 \
+        -require=google.golang.org/grpc@v1.85.0 \
     && go mod tidy
 
 RUN CGO_ENABLED=0 GOOS="${TARGETOS}" GOARCH="${TARGETARCH}" GO111MODULE=on \
