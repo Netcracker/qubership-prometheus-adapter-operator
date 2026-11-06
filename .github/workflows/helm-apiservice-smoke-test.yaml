@@ -78,12 +78,8 @@ jobs:
         run: |
           docker build -t qubership-prometheus-adapter-operator:e2e -f Dockerfile .
           docker build -t qubership-prometheus-adapter:e2e -f prometheus-adapter/Dockerfile prometheus-adapter
-          docker pull alpine/k8s:1.32.0
-          docker pull python:3.12-alpine
           kind load docker-image --name apiservice-smoke qubership-prometheus-adapter-operator:e2e
           kind load docker-image --name apiservice-smoke qubership-prometheus-adapter:e2e
-          kind load docker-image --name apiservice-smoke alpine/k8s:1.32.0
-          kind load docker-image --name apiservice-smoke python:3.12-alpine
 
       - name: Install fake Prometheus endpoint
         run: |
