@@ -22,9 +22,11 @@ metadata:
     app.kubernetes.io/instance: {{ cat "prometheus-adapter-" .Release.Namespace | nospace | trunc 63 | trimSuffix "-" }}
     {{- include "qubership-prometheus-adapter-operator.commonLabels" . | nindent 4 }}
 spec:
-  {{- toYaml .Values.prometheusAdapter | nindent 2 }}
+  {{- toYaml (omit .Values.prometheusAdapter "replicas") | nindent 2 }}
   image: {{ template "prometheus-adapter.image" . }}
+  {{- if ne .Values.prometheusAdapter.replicas nil }}
   replicas: {{ .Values.prometheusAdapter.replicas }}
+  {{- end }}
   metricsRelistInterval: {{ .Values.prometheusAdapter.metricsRelistInterval }}
   prometheusUrl: {{ .Values.prometheusAdapter.prometheusUrl }}
   {{- if .Values.prometheusAdapter.customScaleMetricRulesSelector }}
