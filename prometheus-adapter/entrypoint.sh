@@ -14,9 +14,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Existed prometheus-adapter ConfigMap name
-MOUNTED_PATH="/etc/adapter"
-
 # Runs prometheus-adapter
 manage_adapter() {
     while true; do
@@ -31,7 +28,7 @@ manage_adapter() {
             echo "Kill job_pid $adapter_pid"
             kill $adapter_pid
         fi
-        
+
         echo "Exiting ..."
         break
     done
