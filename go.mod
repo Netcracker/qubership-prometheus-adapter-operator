@@ -5,7 +5,7 @@ go 1.26.0
 toolchain go1.26.11
 
 require (
-	github.com/Netcracker/qubership-prometheus-adapter-operator/api v0.0.0-20261115223036-583a8fffd0cc
+	github.com/Netcracker/qubership-prometheus-adapter-operator/api v0.0.0-20261115223900-519a12c5bad9
 	github.com/go-logr/logr v1.4.4
 	github.com/onsi/ginkgo/v2 v2.34.0
 	github.com/onsi/gomega v1.44.0
@@ -54,7 +54,7 @@ require (
 	github.com/munnerz/goautoneg v0.0.0-20191010083416-a7dc8b61c822 // indirect
 	github.com/pandatix/go-abnf v0.5.3 // indirect
 	github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2 // indirect
-	github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring v0.95.0 // indirect
+	github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring v0.95.1 // indirect
 	github.com/prometheus/client_golang v1.24.0 // indirect
 	github.com/prometheus/client_model v0.6.3 // indirect
 	github.com/prometheus/procfs v0.21.1 // indirect
