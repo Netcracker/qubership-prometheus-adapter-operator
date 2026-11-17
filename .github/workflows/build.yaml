@@ -76,7 +76,7 @@ jobs:
     if: github.event_name == 'pull_request' && needs.changes.outputs.build != 'false'
     permissions:
       contents: read
-      packages: read
+      packages: write
     strategy:
       fail-fast: false
       matrix:
@@ -116,7 +116,7 @@ jobs:
           context: ${{ matrix.component.context }}
           file: ${{ matrix.component.file }}
           platforms: linux/amd64,linux/arm64
-          push: false
+          push: ${{ needs.prepare-config.outputs.restricted-actor != 'true' }}
           provenance: false
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
