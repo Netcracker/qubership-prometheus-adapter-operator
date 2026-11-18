@@ -418,8 +418,8 @@ prometheusAdapter:
               operator: In
               values:
               - prometheus-adapter
-          topologyKey: kubernetes.io/hostname  
-    
+          topologyKey: kubernetes.io/hostname
+
   # Tolerations allow the pods to schedule onto nodes with matching taints.
   # More info: https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration
   # Type: object
