@@ -56,7 +56,6 @@ ENV USER_UID=1001 \
 RUN apk add --no-cache \
         bash \
         procps \
-        inotify-tools \
         tini \
     # Cleanup after install utilities
     && rm -rf /var/cache/apk/* \
