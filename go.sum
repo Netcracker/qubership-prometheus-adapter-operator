@@ -1,7 +1,7 @@
 github.com/Masterminds/semver/v3 v3.4.0 h1:Zog+i5UMtVoCU8oKka5P7i9q9HgrJeGzI9SA1Xbatp0=
 github.com/Masterminds/semver/v3 v3.4.0/go.mod h1:4V+yj/TJE1HU9XfppCwVMZq3I84lprf4nC11bSS5beM=
-github.com/Netcracker/qubership-prometheus-adapter-operator/api v0.0.0-20261120091736-29f1b40212dc h1:0WQVPf76t3xc5SmEWilxLp3Ju0eyfW3tR7b6chxmURs=
-github.com/Netcracker/qubership-prometheus-adapter-operator/api v0.0.0-20261120091736-29f1b40212dc/go.mod h1:DXUvoixi4N+Es+1i7HQY0s8J5YwwvsXqh6Wc9qtOVeU=
+github.com/Netcracker/qubership-prometheus-adapter-operator/api v0.0.0-20261120191602-efad0f1657fc h1:RdftwLP8vrihzyR8UzIUoxDHf/3e6agjfKH5cDnJUyc=
+github.com/Netcracker/qubership-prometheus-adapter-operator/api v0.0.0-20261120191602-efad0f1657fc/go.mod h1:DXUvoixi4N+Es+1i7HQY0s8J5YwwvsXqh6Wc9qtOVeU=
 github.com/beorn7/perks v1.0.1 h1:VlbKKnNfV8bJzeqoa4cOKqO6bYr3WgKZxO8Z16+hsOM=
 github.com/beorn7/perks v1.0.1/go.mod h1:G2ZrVWU2WbWT9wwq4/hrbKbnv/1ERSJQ0ibhJ6rlkpw=
 github.com/cespare/xxhash/v2 v2.3.0 h1:UL815xU9SqsFlibzuggzjXhog7bL6oX9BbNZnL2UFvs=
