@@ -23,6 +23,7 @@ import (
 	"github.com/Netcracker/qubership-prometheus-adapter-operator/controllers/config"
 	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
+	retry "k8s.io/client-go/util/retry"
 	"k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	apimachinerytypes "k8s.io/apimachinery/pkg/types"
@@ -111,22 +112,26 @@ func (m *PrometheusAdapterManager) RebuildPrometheusAdapterConfig() error {
 		return err
 	}
 
-    // Restart prometheus-adapter
-	deployment := appsv1.Deployment{}
-	err = m.client.Get(context.TODO(), apimachinerytypes.NamespacedName{Name: "prometheus-adapter", Namespace: cfg.GetActivatedBy().Namespace}, &deployment)
-	if err != nil {
-		m.log.Error(err, "restart prometheus-adapter: failed get prometheus-adapter deployment")
-		return err
-	}
-	if deployment.Spec.Template.Annotations == nil {
-		deployment.Spec.Template.Annotations = make(map[string]string)
-	}
-	deployment.Spec.Template.Annotations["kubectl.kubernetes.io/restartedAt"] = time.Now().Format(time.RFC3339)
-	err = m.client.Update(context.TODO(), &deployment)
-	if err != nil {
-		m.log.Error(err, "restart prometheus-adapter: failed update prometheus-adapter deployment")
-		return err
-	}
-
 	return nil
+}
+
+// Trigger prometheus-adapter restart
+func (m *PrometheusAdapterManager) RestartPrometheusAdapter() error {
+	err := retry.RetryOnConflict(retry.DefaultRetry, func() error {
+		var deployment appsv1.Deployment
+		if err := m.client.Get(
+			context.TODO(),
+			apimachinerytypes.NamespacedName{Name: "prometheus-adapter", Namespace: config.GetControllerConfig().GetActivatedBy().Namespace},
+			&deployment,
+		); err != nil {
+			m.log.Error(err, "prometheus-adapter restart: failed get prometheus-adapter deployment")
+			return err
+		}
+		if deployment.Spec.Template.Annotations == nil {
+			deployment.Spec.Template.Annotations = make(map[string]string)
+		}
+		deployment.Spec.Template.Annotations["kubectl.kubernetes.io/restartedAt"] = time.Now().Format(time.RFC3339)
+		return m.client.Update(context.TODO(), &deployment)
+	})
+	return err
 }

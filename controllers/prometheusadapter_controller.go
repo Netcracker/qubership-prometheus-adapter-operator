@@ -24,6 +24,7 @@ import (
 	promv1 "github.com/Netcracker/qubership-prometheus-adapter-operator/api/v1"
 	"github.com/Netcracker/qubership-prometheus-adapter-operator/controllers/config"
 	"github.com/Netcracker/qubership-prometheus-adapter-operator/controllers/prometheusadapter"
+	utils "github.com/Netcracker/qubership-prometheus-adapter-operator/controllers/utils"
 
 	"github.com/go-logr/logr"
 	appsv1 "k8s.io/api/apps/v1"
@@ -35,7 +36,7 @@ import (
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
-	"sigs.k8s.io/controller-runtime/pkg/predicate"
+	"sigs.k8s.io/controller-runtime/pkg/handler"
 )
 
 // PrometheusAdapterReconciler reconciles a PrometheusAdapter object
@@ -50,7 +51,34 @@ func (r *PrometheusAdapterReconciler) Reconcile(ctx context.Context, req ctrl.Re
 	cfg := config.GetControllerConfig()
 	log := r.Log.WithValues("prometheusadapter", req.NamespacedName)
 	log.Info("start reconcile")
-
+    r.Log.Info(fmt.Sprintf("triggered by object: namespace: %s name: %s", req.Namespace, req.Name))
+	
+	// reconcile ConfigMap
+	if req.Name == utils.PrometheusAdapterConfig {
+		configMap := corev1.ConfigMap{}
+		err := r.Client.Get(context.TODO(), req.NamespacedName, &configMap)
+	    if err != nil {
+			if errors.IsNotFound(err) {
+				log.Info("not found prometheus-adapter configmap")	
+				req.Name = "prometheus-adapter"
+			} else {
+				// Error reading the object - requeue the request.
+				return ctrl.Result{}, err
+			}
+		} else {
+			prometheusAdapterManager := prometheusadapter.NewPrometheusAdapterManager(r.Client, r.Log)
+			// Restart prometheus-adapter
+			err = prometheusAdapterManager.RestartPrometheusAdapter();
+			if err != nil {
+				log.Info("failed prometheus-adapter restart")	
+				return ctrl.Result{}, err
+			}
+			log.Info("reconciliation finished")
+			return ctrl.Result{}, nil
+		}
+	}
+	
+	// reconcile PrometheusAdapter CR
 	customResourceInstance := &promv1.PrometheusAdapter{}
 	err := r.Client.Get(context.TODO(), req.NamespacedName, customResourceInstance)
 	if err != nil {
@@ -142,9 +170,9 @@ func (r *PrometheusAdapterReconciler) Reconcile(ctx context.Context, req ctrl.Re
 // SetupWithManager creates a contreller for PrometheusAdapter
 func (r *PrometheusAdapterReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
-		For(&promv1.PrometheusAdapter{}).
-		WithEventFilter(predicate.GenerationChangedPredicate{}).
-		Complete(r)
+	    Watches(&corev1.ConfigMap{}, &handler.EnqueueRequestForObject{}).
+	    WithEventFilter(utils.PrometheusAdapterIgnorePredicates()).
+	    Complete(r)
 }
 
 func (r *PrometheusAdapterReconciler) createResource(cr *promv1.PrometheusAdapter, o K8sResource) error {
