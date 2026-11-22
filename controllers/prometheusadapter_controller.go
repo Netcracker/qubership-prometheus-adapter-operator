@@ -52,14 +52,14 @@ func (r *PrometheusAdapterReconciler) Reconcile(ctx context.Context, req ctrl.Re
 	log := r.Log.WithValues("prometheusadapter", req.NamespacedName)
 	log.Info("start reconcile")
     r.Log.Info(fmt.Sprintf("triggered by object: namespace: %s name: %s", req.Namespace, req.Name))
-	
+
 	// reconcile ConfigMap
 	if req.Name == utils.PrometheusAdapterConfig {
 		configMap := corev1.ConfigMap{}
 		err := r.Client.Get(context.TODO(), req.NamespacedName, &configMap)
 	    if err != nil {
 			if errors.IsNotFound(err) {
-				log.Info("not found prometheus-adapter configmap")	
+				log.Info("not found prometheus-adapter configmap")
 				req.Name = "prometheus-adapter"
 			} else {
 				// Error reading the object - requeue the request.
@@ -70,14 +70,14 @@ func (r *PrometheusAdapterReconciler) Reconcile(ctx context.Context, req ctrl.Re
 			// Restart prometheus-adapter
 			err = prometheusAdapterManager.RestartPrometheusAdapter();
 			if err != nil {
-				log.Info("failed prometheus-adapter restart")	
+				log.Info("failed prometheus-adapter restart")
 				return ctrl.Result{}, err
 			}
 			log.Info("reconciliation finished")
 			return ctrl.Result{}, nil
 		}
 	}
-	
+
 	// reconcile PrometheusAdapter CR
 	customResourceInstance := &promv1.PrometheusAdapter{}
 	err := r.Client.Get(context.TODO(), req.NamespacedName, customResourceInstance)

@@ -1,7 +1,7 @@
 package utils
 
 import (
-	promv1 "github.com/Netcracker/qubership-prometheus-adapter-operator/api/v1"	
+    promv1 "github.com/Netcracker/qubership-prometheus-adapter-operator/api/v1"
 	corev1 "k8s.io/api/core/v1"
 
 	"sigs.k8s.io/controller-runtime/pkg/client"
