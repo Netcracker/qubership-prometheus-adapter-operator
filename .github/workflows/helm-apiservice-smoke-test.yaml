@@ -91,16 +91,16 @@ jobs:
           x509_extensions = v3_req
 
           [req_distinguished_name]
-          CN = prometheus-operated.monitoring.svc
+          CN = prometheus-adapter.monitoring.svc
 
           [v3_req]
           subjectAltName = @alt_names
 
           [alt_names]
-          DNS.1 = prometheus-operated
-          DNS.2 = prometheus-operated.monitoring
-          DNS.3 = prometheus-operated.monitoring.svc
-          DNS.4 = prometheus-operated.monitoring.svc.cluster.local
+          DNS.1 = prometheus-adapter
+          DNS.2 = prometheus-adapter.monitoring
+          DNS.3 = prometheus-adapter.monitoring.svc
+          DNS.4 = prometheus-adapter.monitoring.svc.cluster.local
           EOF
           openssl req -x509 -nodes -newkey rsa:2048 -days 1 \
             -keyout /tmp/tls.key \
@@ -140,16 +140,16 @@ jobs:
           apiVersion: apps/v1
           kind: Deployment
           metadata:
-            name: prometheus-operated
+            name: prometheus-adapter
           spec:
             replicas: 1
             selector:
               matchLabels:
-                app: prometheus-operated
+                app: prometheus-adapter
             template:
               metadata:
                 labels:
-                  app: prometheus-operated
+                  app: prometheus-adapter
               spec:
                 containers:
                   - name: prometheus
@@ -178,15 +178,15 @@ jobs:
           apiVersion: v1
           kind: Service
           metadata:
-            name: prometheus-operated
+            name: prometheus-adapter
           spec:
             selector:
-              app: prometheus-operated
+              app: prometheus-adapter
             ports:
               - port: 9090
                 targetPort: 9090
           YAML
-          kubectl -n monitoring rollout status deployment/prometheus-operated --timeout=2m
+          kubectl -n monitoring rollout status deployment/prometheus-adapter --timeout=2m
 
       - name: Install chart
         run: |
@@ -196,7 +196,7 @@ jobs:
             --set prometheusAdapter.image=qubership-prometheus-adapter:e2e \
             --set prometheusAdapter.enableCustomMetrics=true \
             --set prometheusAdapter.enableResourceMetrics=true \
-            --set prometheusAdapter.prometheusUrl=https://prometheus-operated.monitoring.svc:9090 \
+            --set prometheusAdapter.prometheusUrl=https://prometheus-adapter.monitoring.svc:9090 \
             --set prometheusAdapter.tlsEnabled=true \
             --set prometheusAdapter.tlsConfig.existingSecret=prometheus-adapter-client-tls-secret \
             --set apiServiceSmokeTest.install=true \

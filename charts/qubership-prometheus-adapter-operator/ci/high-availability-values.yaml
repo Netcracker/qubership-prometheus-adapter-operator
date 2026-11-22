@@ -17,5 +17,5 @@ prometheusAdapter:
   replicas: 2
 
   metricsRelistInterval: "1m"
-  prometheusUrl: "http://prometheus-operated.monitoring.svc:9090"
+  prometheusUrl: "http://prometheus-adapter.monitoring.svc:9090"
   customScaleMetricRulesSelector: []

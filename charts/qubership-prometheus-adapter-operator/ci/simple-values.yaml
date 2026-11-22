@@ -27,7 +27,7 @@ resources:
 prometheusAdapter:
   image: "ghcr.io/netcracker/qubership-prometheus-adapter:main"
   metricsRelistInterval: "1m"
-  prometheusUrl: "http://prometheus-operated.monitoring.svc:9090"
+  prometheusUrl: "http://prometheus-adapter.monitoring.svc:9090"
   securityContext:
     runAsUser: 2001
     fsGroup: 2001
