@@ -99,7 +99,7 @@ prometheusAdapter:
 
   # Adapter/Prometheus settings
   metricsRelistInterval: "1m"
-  prometheusUrl: "http://prometheus-adapter.monitoring.svc:9090"
+  prometheusUrl: "http://prometheus-operated.monitoring.svc:9090"
   customScaleMetricRulesSelector:
     matchLabels:
       app.kubernetes.io/component: monitoring
