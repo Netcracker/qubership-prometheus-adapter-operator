@@ -117,11 +117,12 @@ func (m *PrometheusAdapterManager) RebuildPrometheusAdapterConfig() error {
 
 // Trigger prometheus-adapter restart
 func (m *PrometheusAdapterManager) RestartPrometheusAdapter() error {
+	ns := config.GetControllerConfig().GetActivatedBy().Namespace
 	err := retry.RetryOnConflict(retry.DefaultRetry, func() error {
 		var deployment appsv1.Deployment
 		if err := m.client.Get(
 			context.TODO(),
-			apimachinerytypes.NamespacedName{Name: "prometheus-adapter", Namespace: config.GetControllerConfig().GetActivatedBy().Namespace},
+			apimachinerytypes.NamespacedName{Name: "prometheus-adapter", Namespace: ns},
 			&deployment,
 		); err != nil {
 			m.log.Error(err, "prometheus-adapter restart: failed get prometheus-adapter deployment")

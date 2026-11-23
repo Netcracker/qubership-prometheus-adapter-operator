@@ -51,9 +51,7 @@ func (r *PrometheusAdapterReconciler) Reconcile(ctx context.Context, req ctrl.Re
 	cfg := config.GetControllerConfig()
 	log := r.Log.WithValues("prometheusadapter", req.NamespacedName)
 	log.Info("start reconcile")
-    r.Log.Info(fmt.Sprintf("triggered by object: namespace: %s name: %s", req.Namespace, req.Name))
 
-	// reconcile ConfigMap
 	if req.Name == utils.PrometheusAdapterConfig {
 		configMap := corev1.ConfigMap{}
 		err := r.Client.Get(context.TODO(), req.NamespacedName, &configMap)
@@ -78,7 +76,6 @@ func (r *PrometheusAdapterReconciler) Reconcile(ctx context.Context, req ctrl.Re
 		}
 	}
 
-	// reconcile PrometheusAdapter CR
 	customResourceInstance := &promv1.PrometheusAdapter{}
 	err := r.Client.Get(context.TODO(), req.NamespacedName, customResourceInstance)
 	if err != nil {
@@ -170,6 +167,7 @@ func (r *PrometheusAdapterReconciler) Reconcile(ctx context.Context, req ctrl.Re
 // SetupWithManager creates a contreller for PrometheusAdapter
 func (r *PrometheusAdapterReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
+	    For(&promv1.PrometheusAdapter{}).
 	    Watches(&corev1.ConfigMap{}, &handler.EnqueueRequestForObject{}).
 	    WithEventFilter(utils.PrometheusAdapterIgnorePredicates()).
 	    Complete(r)
