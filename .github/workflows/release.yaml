@@ -38,7 +38,7 @@ jobs:
         fi
 
     - name: Check if tag exists
-      uses: netcracker/qubership-workflow-hub/actions/tag-action@cf536587a99a23b3614aa4db4bdbf13cf36059b6 # v2.8.3
+      uses: netcracker/qubership-workflow-hub/actions/tag-action@b72b7f047fdb44ac85035f87b4d15d1cbdf2cb15 # v3.0.0
       with:
         tag-name: ${{ inputs.release }}
         ref: main
@@ -64,7 +64,7 @@ jobs:
 
     - name: Resolve Docker config
       id: resolve
-      uses: netcracker/qubership-workflow-hub/actions/docker-config-resolver@cf536587a99a23b3614aa4db4bdbf13cf36059b6 # v2.8.3
+      uses: netcracker/qubership-workflow-hub/actions/docker-config-resolver@b72b7f047fdb44ac85035f87b4d15d1cbdf2cb15 # v3.0.0
       with:
         file-path: .qubership/docker.cfg
 
@@ -78,7 +78,7 @@ jobs:
       contents: write
     steps:
     - name: Create tag
-      uses: netcracker/qubership-workflow-hub/actions/tag-action@cf536587a99a23b3614aa4db4bdbf13cf36059b6 # v2.8.3
+      uses: netcracker/qubership-workflow-hub/actions/tag-action@b72b7f047fdb44ac85035f87b4d15d1cbdf2cb15 # v3.0.0
       with:
         tag-name: ${{ inputs.release }}
         ref: main
@@ -102,7 +102,7 @@ jobs:
         component: ${{ fromJson(needs.resolve-config.outputs.config) }}
     steps:
     - name: Build and publish Docker image
-      uses: netcracker/qubership-workflow-hub/actions/docker-action@cf536587a99a23b3614aa4db4bdbf13cf36059b6 # v2.8.3
+      uses: netcracker/qubership-workflow-hub/actions/docker-action@b72b7f047fdb44ac85035f87b4d15d1cbdf2cb15 # v3.0.0
       with:
         ref: refs/tags/${{ inputs.release }}
         dry-run: false
