@@ -27,6 +27,11 @@ spec:
   selector:
     matchLabels:
       app.kubernetes.io/name: prometheus-adapter
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
   template:
     metadata:
       name: prometheus-adapter
@@ -40,6 +45,7 @@ spec:
       serviceAccountName: "prometheus-adapter"
       nodeSelector: {}
       securityContext: {}
+      terminationGracePeriodSeconds: 30
       containers:
       - name: prometheus-adapter
         image: "k8s-prometheus-adapter-amd64:v0.10.0"
@@ -55,16 +61,20 @@ spec:
             name: https
         livenessProbe:
           httpGet:
-            path: /healthz
+            path: /livez
             port: https
             scheme: HTTPS
           initialDelaySeconds: 30
+          periodSeconds: 5
+          failureThreshold: 5
         readinessProbe:
           httpGet:
-            path: /healthz
+            path: /readyz
             port: https
             scheme: HTTPS
           initialDelaySeconds: 30
+          periodSeconds: 5
+          failureThreshold: 5
         resources:
             limits:
               cpu: 200m

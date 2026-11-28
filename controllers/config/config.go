@@ -194,6 +194,5 @@ func (c *ControllerConfig) LockConfigMap(timeout *time.Duration) error {
 		return nil
 	} else {
 		return fmt.Errorf("ConfigMap is already locked, can not allocate it within %s", timeout.String())
-
 	}
 }
